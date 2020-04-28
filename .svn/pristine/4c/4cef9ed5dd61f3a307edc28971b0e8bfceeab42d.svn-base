@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "uni-app",
+  "enablePullDownRefresh": false,
+  "disableScroll": false,
+  "usingComponents": {
+    "region": "/components/region/region"
+  }
+}

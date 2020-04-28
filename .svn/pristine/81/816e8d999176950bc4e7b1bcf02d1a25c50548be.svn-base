@@ -1,0 +1,73 @@
+/**
+ * pages.json 文件用来对 uni-app 进行全局配置，决定页面文件的路径、窗口样式、原生的导航栏、底部的原生tabbar 等
+ */ 
+{
+  // 设置默认页面的窗口表现，用于设置应用的状态栏、导航条、标题、窗口背景色等
+  "globalStyle": {
+    "navigationBarBackgroundColor": "#F8F8F8", // 导航栏背景颜色（同状态栏背景色）。默认值："#F7F7F7"。平台差异说明：APP与H5为#F7F7F7，小程序平台请参考相应小程序文档
+    "navigationBarTextStyle": "black", // 导航栏标题颜色及状态栏前景颜色，仅支持 black/white。默认值："white"
+    "navigationBarTitleText": "uni-app", // 导航栏标题文字内容
+    "navigationStyle": "default", // 导航栏样式，仅支持 default/custom。custom即取消默认的原生导航栏。平台差异说明：微信小程序 7.0+、百度小程序、H5、App（2.0.3+）
+    "backgroundColor": "#F8F8F8", // 窗口的背景色。默认值："#FFFFFF"。平台差异说明：微信小程序
+    "backgroundTextStyle": "dark", // 下拉 loading 的样式，仅支持 dark / light。默认："dark"。平台差异说明：微信小程序
+    "enablePullDownRefresh": false, // 是否开启下拉刷新。默认：false
+    "onReachBottomDistance": 50, // 页面上拉触底事件触发时距页面底部距离，单位只支持px。默认：50
+    "backgroundColorTop": "#FFFFFF", // 顶部窗口的背景色（bounce回弹区域）。默认值："#FFFFFF"。平台差异说明：仅 iOS 平台
+    "backgroundColorBottom": "#FFFFFF", // 底部窗口的背景色（bounce回弹区域）。默认值："#FFFFFF"。平台差异说明：仅 iOS 平台
+    "titleImage": "", // 导航栏图片地址（替换当前文字标题），支付宝小程序内必须使用https的图片链接地址。默认：""。平台差异说明：支付宝小程序、H5、APP
+    "transparentTitle": "none", // 导航栏透明设置。支持 always 一直透明 / auto 滑动自适应 / none 不透明。默认："none"。平台差异说明：支付宝小程序、H5、APP
+    "titlePenetrate": "NO", // 导航栏点击穿透。默认："NO"。平台差异说明：支付宝小程序、H5
+    "pageOrientation": "portrait", // 屏幕旋转设置，仅支持 auto / portrait。默认："portrait"。平台差异说明：微信小程序
+    "animationType": "pop-in", // 窗口显示的动画效果。默认："pop-in"。可选的值：slide-in-right、slide-in-left、slide-in-top、slide-in-bottom、pop-in、fade-in、zoom-out、zoom-fade-out、none。平台差异说明：APP
+    "animationDuration": 300, // 窗口显示动画的持续时间，单位为 ms。默认：300。平台差异说明：APP
+    "app-plus": {}, // 设置编译到 App 平台的特定样式。平台差异说明：APP
+    "h5": {}, // 设置编译到 H5 平台的特定样式。平台差异说明：H5
+    "mp-alipay": {}, // 设置编译到支付宝小程序的特定样式。平台差异说明：支付宝小程序
+    "mp-weixin": {}, // 设置编译到微信小程序的特定样式。平台差异说明：微信小程序
+    "mp-baidu": {}, // 设置编译到百度小程序的特定样式。平台差异说明：百度小程序
+    "mp-toutiao": {}, // 设置编译到字节跳动小程序的特定样式。平台差异说明：字节跳动小程序
+    "mp-qq": {}, // 设置编译到QQ小程序的特定样式。平台差异说明：QQ小程序
+    "usingComponents": {} // 引用小程序组件。平台差异说明：微信小程序、App
+  },
+
+  // 设置页面路径及窗口表现。数组中第一项表示应用启动页
+  // uni-app 通过 pages 节点配置应用由哪些页面组成，pages 节点接收一个数组，数组每个项都是一个对象，其属性值如下：
+  "pages": [{
+    "path": "pages/index/index", // 配置页面路径
+    "style": { // 用于设置每个页面的状态栏、导航条、标题、窗口背景色等，页面中配置项会覆盖 globalStyle 中相同的配置项
+      "navigationBarTitleText": "uni-app", // 导航栏标题文字内容
+      "enablePullDownRefresh": false, // 是否开启下拉刷新
+      "disableScroll": false, // 设置为 true 则页面整体不能上下滚动（bounce效果），只在页面配置中有效，在globalStyle中设置无效
+      "usingComponents": {} // 引用小程序组件
+    }
+  }],
+
+  // 如果应用是一个多 tab 应用，可以通过 tabBar 配置项指定 tab 栏的表现，以及 tab 切换时显示的对应页
+  // Tips：当设置 position 为 top 时，将不会显示 icon
+  // Tips：tabBar 中的 list 是一个数组，只能配置最少2个、最多5个 tab，tab 按数组的顺序排序
+  // Tips：tabbar 切换第一次加载时可能渲染不及时，可以在每个tabbar页面的onLoad生命周期里先弹出一个等待雪花
+  // Tips：tabbar 的页面展现过一次后就保留在内存中，再次切换 tabbar 页面，只会触发每个页面的onShow，不会再触发onLoad
+  // Tips：顶部的 tabbar 目前仅微信小程序上支持。需要用到顶部选项卡的话，建议不使用 tabbar 的顶部设置，而是自己做顶部选项卡，可参考 hello uni-app->模板->顶部选项卡
+  "tabBar": {
+    "color": "#333333", // tab 上的文字默认颜色
+    "selectedColor": "#FF9900", // tab 上的文字选中时的颜色
+    "backgroundColor": "#FFFFFF", // tab 的背景色
+    "borderStyle": "white", // tabbar 上边框的颜色，仅支持 black/white。默认："black"
+    // tab 的列表，详见 list 属性说明，最少2个、最多5个 tab
+    "list": [{
+      "pagePath": "pages/index/index", // 页面路径，必须在 pages 中先定义
+      "text": "首页", // tab 上按钮文字，在 5+APP 和 H5 平台为非必填。例如中间可放一个没有文字的+号图标
+      "iconPath": "static/logo.png", // 图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效，不支持网络图片，不支持字体图标
+      "selectedIconPath": "static/logo.png" // 选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效
+    }, {
+      "pagePath": "pages/index/index", // 页面路径，必须在 pages 中先定义
+      "text": "首页", // tab 上按钮文字，在 5+APP 和 H5 平台为非必填。例如中间可放一个没有文字的+号图标
+      "iconPath": "static/logo.png", // 图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效，不支持网络图片，不支持字体图标
+      "selectedIconPath": "static/logo.png" // 选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效
+    }],
+    "position": "bottom", // 可选值 bottom、top。平台差异说明：top 值仅微信小程序支持
+    "fontSize": "10px", // 文字默认大小。默认值："10px"
+    "iconWidth": "24px", // 图标默认宽度（高度等比例缩放）。默认："24px"
+    "height": "50px" // tabBar 默认高度。默认："50px"
+  }
+}

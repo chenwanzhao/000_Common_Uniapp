@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationStyle": "default",
+    "backgroundColor": "#F8F8F8",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": false,
+    "onReachBottomDistance": 50,
+    "backgroundColorTop": "#FFFFFF",
+    "backgroundColorBottom": "#FFFFFF",
+    "titleImage": "",
+    "transparentTitle": "none",
+    "titlePenetrate": "NO",
+    "pageOrientation": "portrait",
+    "animationType": "pop-in",
+    "animationDuration": 300
+  },
+  "tabBar": {
+    "color": "#333333",
+    "selectedColor": "#FF9900",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/logo.png",
+        "selectedIconPath": "static/logo.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/logo.png",
+        "selectedIconPath": "static/logo.png"
+      }
+    ],
+    "position": "bottom",
+    "fontSize": "10px",
+    "iconWidth": "24px",
+    "height": "50px"
+  },
+  "usingComponents": {}
+}
