@@ -157,21 +157,38 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var _this;
-var _app = getApp();var Region = function Region() {Promise.all(/*! require.ensure | components/region/region */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/region/region")]).then((function () {return resolve(__webpack_require__(/*! @/components/region/region.vue */ 25));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
-// 省/市/区
+var _app = getApp();var Region = function Region() {Promise.all(/*! require.ensure | components/region/region */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/region/region")]).then((function () {return resolve(__webpack_require__(/*! @/components/region/region.vue */ 25));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var DatetimePicker = function DatetimePicker() {__webpack_require__.e(/*! require.ensure | components/datetime-picker/datetime-picker */ "components/datetime-picker/datetime-picker").then((function () {return resolve(__webpack_require__(/*! @/components/datetime-picker/datetime-picker.vue */ 33));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+
+// 日期时间
 var _default = {
   /**
                   * 组件
                   */
   components: {
-    Region: Region },
+    Region: Region,
+    DatetimePicker: DatetimePicker },
 
 
   /**
-                       * 数据
-                       */
+                                       * 数据
+                                       */
   data: function data() {
     return {
       title: 'Hello' };
@@ -202,6 +219,14 @@ var _default = {
               */
     onChangeRegion: function onChangeRegion(region) {
       console.log('选择的省市区数据：', region);
+    },
+
+    /**
+        * 选择日期时间
+        * @param {Object} date 日期数据
+        */
+    changeDatetimePicker: function changeDatetimePicker(date) {
+      console.log(date);
     } } };exports.default = _default;
 
 /***/ }),

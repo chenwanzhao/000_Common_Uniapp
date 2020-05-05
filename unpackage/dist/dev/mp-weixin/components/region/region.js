@@ -167,7 +167,7 @@ var regionData = __webpack_require__(/*! @/static/json/region.json */ 30);var _d
   /**
       * 组件初次加载完成
       */
-  onReady: function onReady() {
+  mounted: function mounted() {
     // 设置/更新省市区数据
     this.defaultValue ? this.setDefaultValue() : this.setRange();
   },

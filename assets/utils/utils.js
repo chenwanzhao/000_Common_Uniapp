@@ -131,16 +131,16 @@ export default {
 	formatDate(date) {
 		let dt = new Date(date);
 		let YYYY = dt.getFullYear();
-		let MM = dt.getMonth() + 1;
-		let M = MM >= 10 ? MM : '0' + MM;
-		let DD = dt.getDate();
-		let D = DD >= 10 ? DD : '0' + DD;
-		let hh = dt.getHours();
-		let h = hh >= 10 ? hh : '0' + hh;
-		let mm = dt.getMinutes();
-		let m = mm >= 10 ? mm : '0' + mm;
-		let ss = dt.getSeconds();
-		let s = ss >= 10 ? ss : '0' + ss;
+		let M = dt.getMonth() + 1;
+		let MM = M >= 10 ? M : '0' + M;
+		let D = dt.getDate();
+		let DD = D >= 10 ? D : '0' + D;
+		let h = dt.getHours();
+		let hh = h >= 10 ? h : '0' + h;
+		let m = dt.getMinutes();
+		let mm = m >= 10 ? m : '0' + m;
+		let s = dt.getSeconds();
+		let ss = s >= 10 ? s : '0' + s;
 		let ms = dt.getMilliseconds();
 		let ms2 = ms;
 		let ms3 = ms;
@@ -173,6 +173,7 @@ export default {
 			ms4: ms4,
 			fmt1: YYYY + '-' + MM + '-' + DD,
 			fmt2: YYYY + '年' + MM + '月' + DD + '日',
+			fmt3: YYYY + '-' + MM + '-' + DD + ' ' + hh + ':' + mm,
 			notes: 'YYYY（年），MM（月，补0），M（月，不补0），DD（日，补0），D（日，不补0），hh（时，补0），h（时，不补0），mm（分，补0），m（分，不补0），ss（秒，补0），s（秒，不补0），ms（毫秒，不补0），ms2（毫秒，补0到2位），ms3（毫秒，补0到3位），ms4（毫秒，补0到4位），其余的fmt1，fmt2，... 看格式就知道了！'
 		};
 		return result;

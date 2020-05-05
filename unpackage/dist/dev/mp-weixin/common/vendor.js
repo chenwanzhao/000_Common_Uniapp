@@ -757,7 +757,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -7091,7 +7091,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7112,14 +7112,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7195,7 +7195,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -9047,16 +9047,16 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   formatDate: function formatDate(date) {
     var dt = new Date(date);
     var YYYY = dt.getFullYear();
-    var MM = dt.getMonth() + 1;
-    var M = MM >= 10 ? MM : '0' + MM;
-    var DD = dt.getDate();
-    var D = DD >= 10 ? DD : '0' + DD;
-    var hh = dt.getHours();
-    var h = hh >= 10 ? hh : '0' + hh;
-    var mm = dt.getMinutes();
-    var m = mm >= 10 ? mm : '0' + mm;
-    var ss = dt.getSeconds();
-    var s = ss >= 10 ? ss : '0' + ss;
+    var M = dt.getMonth() + 1;
+    var MM = M >= 10 ? M : '0' + M;
+    var D = dt.getDate();
+    var DD = D >= 10 ? D : '0' + D;
+    var h = dt.getHours();
+    var hh = h >= 10 ? h : '0' + h;
+    var m = dt.getMinutes();
+    var mm = m >= 10 ? m : '0' + m;
+    var s = dt.getSeconds();
+    var ss = s >= 10 ? s : '0' + s;
     var ms = dt.getMilliseconds();
     var ms2 = ms;
     var ms3 = ms;
@@ -9089,6 +9089,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       ms4: ms4,
       fmt1: YYYY + '-' + MM + '-' + DD,
       fmt2: YYYY + '年' + MM + '月' + DD + '日',
+      fmt3: YYYY + '-' + MM + '-' + DD + ' ' + hh + ':' + mm,
       notes: 'YYYY（年），MM（月，补0），M（月，不补0），DD（日，补0），D（日，不补0），hh（时，补0），h（时，不补0），mm（分，补0），m（分，不补0），ss（秒，补0），s（秒，不补0），ms（毫秒，不补0），ms2（毫秒，补0到2位），ms3（毫秒，补0到3位），ms4（毫秒，补0到4位），其余的fmt1，fmt2，... 看格式就知道了！' };
 
     return result;

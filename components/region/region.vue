@@ -1,7 +1,7 @@
-<!-- 省/市/区 -->
+<!-- 省/市/区选择器 -->
 <template>
 	<view class="region">
-		<picker mode="multiSelector" :range="range" range-key="name" @change="change" @columnchange="columnchange" :value="value" class="picker" :disabled="disabled">
+		<picker mode="multiSelector" :range="range" range-key="name" @change="change" @columnchange="columnchange" :value="value" :disabled="disabled">
 			<view class="content" :class="{ placeholder: !regionStr }">
 				<text class="ellipsis-1">{{ regionStr ? regionStr : placeholder }}</text>
 			</view>
@@ -51,7 +51,7 @@ export default {
 	/**
 	 * 组件初次加载完成
 	 */
-	onReady() {
+	mounted() {
 		// 设置/更新省市区数据
 		this.defaultValue ? this.setDefaultValue() : this.setRange();
 	},
@@ -79,7 +79,7 @@ export default {
 
 			// 市
 			regionData[this.value[0]].children.forEach(el => {
-				range[1].push({ 
+				range[1].push({
 					id: el.id,
 					level: el.level,
 					name: el.name,
@@ -89,7 +89,7 @@ export default {
 
 			// 区
 			regionData[this.value[0]].children[this.value[1]].children.forEach(el => {
-				range[2].push({ 
+				range[2].push({
 					id: el.id,
 					level: el.level,
 					name: el.name,
@@ -141,16 +141,16 @@ export default {
 		 */
 		columnchange(event) {
 			// 改变的是省
-			if(event.detail.column == 0) {
+			if (event.detail.column == 0) {
 				this.value = [event.detail.value, 0, 0];
 			}
 			// 改变的是市
-			if(event.detail.column == 1) {
+			if (event.detail.column == 1) {
 				this.value.splice(1, 1, event.detail.value);
 				this.value.splice(2, 1, 0);
 			}
 			// 改变的是区
-			if(event.detail.column == 2) {
+			if (event.detail.column == 2) {
 				this.value.splice(2, 1, event.detail.value);
 			}
 
@@ -164,7 +164,7 @@ export default {
 		change(event) {
 			// 更新选中的省市区字符串
 			this.regionStr = this.range[0][this.value[0]].name + '·' + this.range[1][this.value[1]].name + '·' + this.range[2][this.value[2]].name;
-			
+
 			// 传递事件
 			this.$emit('change', [this.range[0][this.value[0]], this.range[1][this.value[1]], this.range[2][this.value[2]]]);
 		}
