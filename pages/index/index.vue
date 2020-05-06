@@ -1,30 +1,23 @@
 <!-- 首页 -->
 <template>
 	<view class="page-container">
-		<!-- 省/市/区 - 无默认值 -->
-		<view class="row border border-bottom border-padding">
-			<text class="label">省/市/区</text>
-			<view class="value"><Region @change="onChangeRegion"></Region></view>
-			<text class="iconfont right-icon">&#xe63e;</text>
-		</view>
-		<!-- 省/市/区 - 有默认值 -->
+		<!-- 省/市/区选择器 -->
 		<view class="row border border-bottom border-padding">
 			<text class="label">省/市/区</text>
 			<view class="value"><Region :defaultValue="['山西省', '大同市', '南郊区']" @change="onChangeRegion"></Region></view>
 			<text class="iconfont right-icon">&#xe63e;</text>
 		</view>
 		
-		<!-- 日期时间 - 无默认值 -->
-		<view class="row border border-bottom border-padding">
-			<text class="label">日期时间</text>
-			<view class="value"><DatetimePicker placeholder="请选择日期时间" fields="minute" @change="changeDatetimePicker"></DatetimePicker></view>
-			<text class="iconfont right-icon">&#xe63e;</text>
-		</view>
-		<!-- 日期时间 - 有默认值 -->
+		<!-- 日期时间选择器 -->
 		<view class="row border border-bottom border-padding">
 			<text class="label">日期时间</text>
 			<view class="value"><DatetimePicker placeholder="请选择日期时间" defaultValue="2020-08-16 12:35" start="2020-05-11 12:30" end="2030-08-16 16:50" fields="minute" @change="changeDatetimePicker"></DatetimePicker></view>
 			<text class="iconfont right-icon">&#xe63e;</text>
+		</view>
+		
+		<!-- 瀑布流布局 -->
+		<view class="waterfall-wrapper">
+			<Waterfall @tapItem="onTapWaterfallItem"></Waterfall>
 		</view>
 	</view>
 </template>
@@ -32,15 +25,17 @@
 <script>
 let _this;
 let _app = getApp();
-import Region from '@/components/region/region.vue'; // 省/市/区
-import DatetimePicker from '@/components/datetime-picker/datetime-picker.vue'; // 日期时间
+import Region from '@/components/region/region.vue'; // 省/市/区选择器
+import DatetimePicker from '@/components/datetime-picker/datetime-picker.vue'; // 日期时间选择器
+import Waterfall from '@/components/waterfall/waterfall.vue'; // 瀑布流布局
 export default {
 	/**
 	 * 组件
 	 */
 	components: {
 		Region,
-		DatetimePicker
+		DatetimePicker,
+		Waterfall
 	},
 
 	/**
@@ -65,6 +60,13 @@ export default {
 	onReady() {
 		console.log('Page onReady');
 	},
+	
+	/**
+	 * 滚动到了底部
+	 */ 
+	onReachBottom() {
+		console.log('滚动到了底部!')
+	},
 
 	/**
 	 * 方法
@@ -84,6 +86,15 @@ export default {
 		 */ 
 		changeDatetimePicker(date) {
 			console.log(date);
+		},
+		
+		/**
+		 * 瀑布流布局 item 点击事件
+		 * @param {Object} item 数据对象
+		 * @param {Number} index 数据下标
+		 */ 
+		onTapWaterfallItem(item, index) {
+			console.log('点击了瀑布流布局中的Item：', item, index);
 		}
 	}
 };
@@ -112,5 +123,10 @@ export default {
 	.right-icon {
 		flex-shrink: 0;
 	}
+}
+
+/* 瀑布流布局 */
+.waterfall-wrapper {
+	padding: 30upx;
 }
 </style>

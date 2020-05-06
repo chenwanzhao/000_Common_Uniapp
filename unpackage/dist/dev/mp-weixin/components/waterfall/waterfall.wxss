@@ -1,0 +1,38 @@
+@charset "UTF-8";
+/**
+ * @说明：样式全局变量，此文件不需要引用，自动生效
+ * @作者：陈万照
+ * @公司：山东标梵互动技术有限公司
+ * @官网：http://biaofun.com/
+ * @版本：v1.0.0
+ * @时间：2020年4月28日11:28:13
+ */
+/* 颜色变量 */
+/* 字体大小 */
+.waterfall.data-v-591ed9e8 {
+  width: 100%;
+  margin: 0 auto;
+  -webkit-column-width: auto;
+          column-width: auto;
+}
+.item.data-v-591ed9e8 {
+  -webkit-column-break-inside: avoid;
+          break-inside: avoid;
+  overflow: hidden;
+  border-radius: 4rpx;
+}
+.image.data-v-591ed9e8 {
+  width: 100%;
+  display: block;
+}
+.title.data-v-591ed9e8 {
+  display: block;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  font-weight: 500;
+  color: #050505;
+  font-size: 28rpx;
+  background: #f2f3f4;
+}
+

@@ -37,4 +37,8 @@
   -webkit-flex-shrink: 0;
           flex-shrink: 0;
 }
+/* 瀑布流布局 */
+.waterfall-wrapper.data-v-584560ec {
+  padding: 30rpx;
+}
 
