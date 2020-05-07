@@ -1,2 +1,0 @@
-setCssToHead(["@charset \x22UTF-8\x22;\n.",[1],"page-container { display: -webkit-box; display: -webkit-flex; display: flex; font-size: ",[0,40],"; -webkit-box-align: center; -webkit-align-items: center; align-items: center; -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center; }\n",],undefined,{path:"./pages/index/index.wxss"})();
-document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/index/index.wxml') } }));

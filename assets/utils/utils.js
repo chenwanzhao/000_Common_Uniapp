@@ -129,32 +129,91 @@ export default {
 	 * @param {Date|String} date 日期或日期字符串
 	 */
 	formatDate(date) {
-		let dt = new Date(date);
-		let YYYY = dt.getFullYear();
-		let M = dt.getMonth() + 1;
-		let MM = M >= 10 ? M : '0' + M;
-		let D = dt.getDate();
-		let DD = D >= 10 ? D : '0' + D;
-		let h = dt.getHours();
-		let hh = h >= 10 ? h : '0' + h;
-		let m = dt.getMinutes();
-		let mm = m >= 10 ? m : '0' + m;
-		let s = dt.getSeconds();
-		let ss = s >= 10 ? s : '0' + s;
-		let ms = dt.getMilliseconds();
-		let ms2 = ms;
-		let ms3 = ms;
-		let ms4 = ms;
-		if (ms < 10) {
-			ms2 = '0' + ms;
-			ms3 = '00' + ms;
-			ms4 = '000' + ms;
-		} else if (ms < 100) {
-			ms3 = '0' + ms;
-			ms4 = '00' + ms;
-		} else {
-			ms4 = '0' + ms;
+		let YYYY = null; 
+		let M = null;
+		let MM = null;
+		let D = null;
+		let DD = null;
+		let h = null;
+		let hh = null;
+		let m = null;
+		let mm = null;
+		let s = null;
+		let ss = null;
+		let ms = null;
+		let ms2 = null;
+		let ms3 = null;
+		let ms4 = null;
+		
+		if(this.isString(date)) {
+			// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
+			let dtArr = date.replace(/-/g,':').replace(' ',':').split(':');
+			// 年
+			dtArr[0] != undefined ? YYYY = dtArr[0] : {}; 
+			// 月
+			dtArr[1] != undefined ? M = parseInt(dtArr[1]) : {}; 
+			M != undefined && M >= 10 ? MM = M : {}; 
+			M != undefined && M < 10 ? MM = `0${M}` : {}; 
+			// 日
+			dtArr[2] != undefined ? D = parseInt(dtArr[2]) : {}; 
+			D != undefined && D >= 10 ? DD = D : {}; 
+			D != undefined && D < 10 ? DD = `0${D}` : {}; 
+			// 时
+			dtArr[3] != undefined ? h = parseInt(dtArr[3]) : {}; 
+			h != undefined && h >= 10 ? hh = h : {}; 
+			h != undefined && h < 10 ? hh = `0${h}` : {}; 
+			// 分
+			dtArr[4] != undefined ? m = parseInt(dtArr[4]) : {}; 
+			m != undefined && m >= 10 ? mm = m : {}; 
+			m != undefined && m < 10 ? mm = `0${m}` : {}; 
+			// 秒
+			dtArr[5] != undefined ? s = parseInt(dtArr[5]) : {}; 
+			s != undefined && s >= 10 ? ss = s : {}; 
+			s != undefined && s < 10 ? ss = `0${s}` : {}; 
+			// 毫秒
+			dtArr[6] != undefined ? ms = parseInt(dtArr[6]) : {}; 
+			ms2 = ms;
+			ms3 = ms;
+			ms4 = ms;
+			if (ms != null && ms < 10) {
+				ms2 = '0' + ms;
+				ms3 = '00' + ms;
+				ms4 = '000' + ms;
+			} else if (ms != null && ms < 100) {
+				ms3 = '0' + ms;
+				ms4 = '00' + ms;
+			} else if (ms != null && ms < 1000) {
+				ms4 = '0' + ms;
+			}
+		} else if(this.isDate(date)) {
+			YYYY = date.getFullYear();
+			M = date.getMonth() + 1;
+			MM = M >= 10 ? M : '0' + M;
+			D = date.getDate();
+			DD = D >= 10 ? D : '0' + D;
+			h = date.getHours();
+			hh = h >= 10 ? h : '0' + h;
+			m = date.getMinutes();
+			mm = m >= 10 ? m : '0' + m;
+			s = date.getSeconds();
+			ss = s >= 10 ? s : '0' + s;
+			ms = date.getMilliseconds();
+			ms2 = ms;
+			ms3 = ms;
+			ms4 = ms;
+			if (ms < 10) {
+				ms2 = '0' + ms;
+				ms3 = '00' + ms;
+				ms4 = '000' + ms;
+			} else if (ms < 100) {
+				ms3 = '0' + ms;
+				ms4 = '00' + ms;
+			} else {
+				ms4 = '0' + ms;
+			}
 		}
+		
+		// 返回的数据对象
 		let result = {
 			YYYY: YYYY,
 			MM: MM,

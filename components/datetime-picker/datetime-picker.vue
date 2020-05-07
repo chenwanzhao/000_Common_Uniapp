@@ -45,9 +45,9 @@ export default {
 			default: 'minute'
 		},
 
-		// 默认值
+		// 默认值，字符串格式为"YYYY-MM-DD hh:mm"
 		defaultValue: {
-			type: [Date, String],
+			type: String,
 			default() {
 				return null;
 			}
@@ -62,8 +62,8 @@ export default {
 			range: [],
 			value: [],
 			dateStr: '', // 最终显示的字符串
-			dtStart: new Date('1970-01-01 00:00'), // 有效范围开始
-			dtEnd: new Date('2300-01-01 00:00'), // 有效范围结束
+			dtStart: new Date(), // 有效范围开始
+			dtEnd: new Date(), // 有效范围结束
 		};
 	},
 
@@ -71,9 +71,25 @@ export default {
 	 * 组件初次加载完成
 	 */
 	mounted() {
+		// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
+		// 有效日期开始
+		let startArray = this.start.replace(/-/g,':').replace(' ',':').split(':');
+		startArray[0] !== undefined ? this.dtStart.setFullYear(startArray[0]) : {};
+		startArray[1] !== undefined ? this.dtStart.setMonth(startArray[1] - 1) : {};
+		startArray[2] !== undefined ? this.dtStart.setDate(startArray[2]) : {};
+		startArray[3] !== undefined ? this.dtStart.setHours(startArray[3]) : {};
+		startArray[4] !== undefined ? this.dtStart.setMinutes(startArray[4]) : {};
+		
+		// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
+		// 有效日期结束
+		let endArray = this.end.replace(/-/g,':').replace(' ',':').split(':');
+		endArray[0] !== undefined ? this.dtEnd.setFullYear(endArray[0]) : {};
+		endArray[1] !== undefined ? this.dtEnd.setMonth(endArray[1] - 1) : {};
+		endArray[2] !== undefined ? this.dtEnd.setDate(endArray[2]) : {};
+		endArray[3] !== undefined ? this.dtEnd.setHours(endArray[3]) : {};
+		endArray[4] !== undefined ? this.dtEnd.setMinutes(endArray[4]) : {};
+		
 		// 判断有效日期结束是否大于有效日期开始，如果不是，则将有效日期结束修改为有效日期开始往后300年
-		this.dtStart = new Date(this.start); // 有效日期开始
-		this.dtEnd = new Date(this.end); // 有效日期结束
 		if (this.dtEnd <= this.dtStart) {
 			this.dtEnd = new Date(this.start);
 			this.dtEnd.setFullYear(this.dtStart.getFullYear() + 300);
@@ -127,10 +143,10 @@ export default {
 			// 设置显示的值
 			let dt = new Date();
 			dt.setFullYear(year);
-			month ? dt.setMonth(month - 1) : {};
-			day ? dt.setDate(day) : {};
-			hour ? dt.setHours(hour) : {};
-			minute ? dt.setMinutes(minute) : {};
+			month != undefined ? dt.setMonth(month - 1) : {};
+			day != undefined ? dt.setDate(day) : {};
+			hour != undefined ? dt.setHours(hour) : {};
+			minute != undefined ? dt.setMinutes(minute) : {};
 			this.setDateStr(dt);
 			
 			// 提交事件
@@ -224,7 +240,33 @@ export default {
 			// 日
 			let days = [];
 			let dayStartIndex = year == yearStart && month == monthStart ? dayStart : 1;
-			let dayEndIndex = year == yearEnd && month == monthEnd ? dayEnd : new Date(year, month, 0).getDate();
+			let dayEndIndex; 
+			if(year == yearEnd && month == monthEnd) {
+				dayEndIndex = dayEnd;
+			} else {
+				// 本月1号
+				let dtThisMonth = new Date();
+				dtThisMonth.setFullYear(year);
+				dtThisMonth.setMonth(month - 1);
+				dtThisMonth.setDate(1);
+				dtThisMonth.setHours(0);
+				dtThisMonth.setMinutes(0);
+				dtThisMonth.setSeconds(0);
+				dtThisMonth.setMilliseconds(0);
+				
+				// 下月1号
+				let dtNextMonth = new Date();
+				dtNextMonth.setFullYear(year);
+				dtNextMonth.setMonth(month);
+				dtNextMonth.setDate(1);
+				dtNextMonth.setHours(0);
+				dtNextMonth.setMinutes(0);
+				dtNextMonth.setSeconds(0);
+				dtNextMonth.setMilliseconds(0);
+				
+				// 计算出本月的总天数
+				dayEndIndex = parseInt((dtNextMonth - dtThisMonth) / (86400000));
+			}
 			for (let day = dayStartIndex; day <= dayEndIndex; day++) {
 				let item = {
 					number: day,
@@ -304,19 +346,22 @@ export default {
 		 * 设置默认值
 		 */
 		setDefaultValue() {
-			let dateDefault = null; // 默认日期
-			let dateStart = new Date(this.start); // 有效开始日期
-			let dateEnd = new Date(this.end); // 有效结束日期
+			let dateDefault = new Date(); // 默认日期，默认为当前日期
+			let dateStart = this.dtStart; // 有效开始日期
+			let dateEnd = this.dtEnd; // 有效结束日期
 
 			// 设置默认日期
-			// 如果没有设置默认日期，将默认日期设置为当前日期
-			// 如果有设置默认日期，但是默认日期不在有效日期范围内，将默认日期设置为当前日期
-			// 如果有设置默认日期，默认日期不在有效日期范围内，当前日期也不在有效日期范围内，设置默认日期为有效日期开始值
-			if (!this.defaultValue) {
-				dateDefault = new Date();
-			} else {
-				dateDefault = new Date(this.defaultValue);
+			if (this.defaultValue) {
+				// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
+				let dfArray = this.defaultValue.replace(/-/g,':').replace(' ',':').split(':');
+				dfArray[0] !== undefined ? dateDefault.setFullYear(dfArray[0]) : {};
+				dfArray[1] !== undefined ? dateDefault.setMonth(dfArray[1] - 1) : {};
+				dfArray[2] !== undefined ? dateDefault.setDate(dfArray[2]) : {};
+				dfArray[3] !== undefined ? dateDefault.setHours(dfArray[3]) : {};
+				dfArray[4] !== undefined ? dateDefault.setMinutes(dfArray[4]) : {};
 			}
+			
+			// 如果有设置默认日期，默认日期不在有效日期范围内，当前日期也不在有效日期范围内，设置默认日期为有效日期开始值
 			if (dateDefault < dateStart || dateDefault > dateEnd) {
 				dateDefault = new Date(this.start);
 			}
