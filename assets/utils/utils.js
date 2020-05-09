@@ -147,45 +147,18 @@ export default {
 		
 		if(this.isString(date)) {
 			// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
-			let dtArr = date.replace(/-/g,':').replace(' ',':').split(':');
-			// 年
-			dtArr[0] != undefined ? YYYY = dtArr[0] : {}; 
-			// 月
-			dtArr[1] != undefined ? M = parseInt(dtArr[1]) : {}; 
-			M != undefined && M >= 10 ? MM = M : {}; 
-			M != undefined && M < 10 ? MM = `0${M}` : {}; 
-			// 日
-			dtArr[2] != undefined ? D = parseInt(dtArr[2]) : {}; 
-			D != undefined && D >= 10 ? DD = D : {}; 
-			D != undefined && D < 10 ? DD = `0${D}` : {}; 
-			// 时
-			dtArr[3] != undefined ? h = parseInt(dtArr[3]) : {}; 
-			h != undefined && h >= 10 ? hh = h : {}; 
-			h != undefined && h < 10 ? hh = `0${h}` : {}; 
-			// 分
-			dtArr[4] != undefined ? m = parseInt(dtArr[4]) : {}; 
-			m != undefined && m >= 10 ? mm = m : {}; 
-			m != undefined && m < 10 ? mm = `0${m}` : {}; 
-			// 秒
-			dtArr[5] != undefined ? s = parseInt(dtArr[5]) : {}; 
-			s != undefined && s >= 10 ? ss = s : {}; 
-			s != undefined && s < 10 ? ss = `0${s}` : {}; 
-			// 毫秒
-			dtArr[6] != undefined ? ms = parseInt(dtArr[6]) : {}; 
-			ms2 = ms;
-			ms3 = ms;
-			ms4 = ms;
-			if (ms != null && ms < 10) {
-				ms2 = '0' + ms;
-				ms3 = '00' + ms;
-				ms4 = '000' + ms;
-			} else if (ms != null && ms < 100) {
-				ms3 = '0' + ms;
-				ms4 = '00' + ms;
-			} else if (ms != null && ms < 1000) {
-				ms4 = '0' + ms;
-			}
-		} else if(this.isDate(date)) {
+			let dtAyy = date.replace(/-/g,':').replace(' ',':').split(':');
+			date = new Date();
+			dtArr[0] != undefined ? date.setFullYear(dtArr[0]) : {}; // 年
+			dtArr[1] != undefined ? date.setMonth(dtArr[1] - 1) : {}; // 月
+			dtArr[2] != undefined ? date.setDate(dtArr[2]) : {}; // 日
+			dtArr[3] != undefined ? date.setHours(dtArr[3]) : {}; // 时
+			dtArr[4] != undefined ? date.setMinutes(dtArr[4]) : {}; // 分
+			dtArr[5] != undefined ? date.setSeconds(dtArr[5]) : {}; // 秒
+			dtArr[6] != undefined ? date.setMilliseconds(dtArr[6]) : {}; // 毫秒
+		} 
+		
+		if(this.isDate(date)) {
 			YYYY = date.getFullYear();
 			M = date.getMonth() + 1;
 			MM = M >= 10 ? M : '0' + M;

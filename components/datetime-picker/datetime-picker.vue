@@ -27,15 +27,15 @@ export default {
 			default: '请选择日期时间'
 		},
 
-		// 表示有效日期时间范围的开始，字符串格式为"YYYY-MM-DD hh:mm"
+		// 表示有效日期时间范围的开始，字符串格式必须为"YYYY-MM-DD hh:mm"
 		start: {
-			type: String,
+			type: [String, Date],
 			default: '1970-01-01 00:00'
 		},
 
-		// 表示有效日期时间范围的结束，字符串格式为"YYYY-MM-DD hh:mm"
+		// 表示有效日期时间范围的结束，字符串格式必须为"YYYY-MM-DD hh:mm"
 		end: {
-			type: String,
+			type: [String, Date],
 			default: '2300-01-01 00:00'
 		},
 
@@ -45,9 +45,9 @@ export default {
 			default: 'minute'
 		},
 
-		// 默认值，字符串格式为"YYYY-MM-DD hh:mm"
+		// 默认值，字符串格式必须为"YYYY-MM-DD hh:mm"
 		defaultValue: {
-			type: String,
+			type: [String, Date],
 			default() {
 				return null;
 			}
@@ -71,23 +71,31 @@ export default {
 	 * 组件初次加载完成
 	 */
 	mounted() {
-		// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
 		// 有效日期开始
-		let startArray = this.start.replace(/-/g,':').replace(' ',':').split(':');
-		startArray[0] !== undefined ? this.dtStart.setFullYear(startArray[0]) : {};
-		startArray[1] !== undefined ? this.dtStart.setMonth(startArray[1] - 1) : {};
-		startArray[2] !== undefined ? this.dtStart.setDate(startArray[2]) : {};
-		startArray[3] !== undefined ? this.dtStart.setHours(startArray[3]) : {};
-		startArray[4] !== undefined ? this.dtStart.setMinutes(startArray[4]) : {};
+		if(this.$utils.isDate(this.start)) {
+			this.dtStart = this.start;
+		} else if(this.$utils.isString(this.start)) {
+			// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
+			let startArray = this.start.replace(/-/g,':').replace(' ',':').split(':');
+			startArray[0] !== undefined ? this.dtStart.setFullYear(startArray[0]) : {};
+			startArray[1] !== undefined ? this.dtStart.setMonth(startArray[1] - 1) : {};
+			startArray[2] !== undefined ? this.dtStart.setDate(startArray[2]) : {};
+			startArray[3] !== undefined ? this.dtStart.setHours(startArray[3]) : {};
+			startArray[4] !== undefined ? this.dtStart.setMinutes(startArray[4]) : {};
+		}
 		
-		// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
 		// 有效日期结束
-		let endArray = this.end.replace(/-/g,':').replace(' ',':').split(':');
-		endArray[0] !== undefined ? this.dtEnd.setFullYear(endArray[0]) : {};
-		endArray[1] !== undefined ? this.dtEnd.setMonth(endArray[1] - 1) : {};
-		endArray[2] !== undefined ? this.dtEnd.setDate(endArray[2]) : {};
-		endArray[3] !== undefined ? this.dtEnd.setHours(endArray[3]) : {};
-		endArray[4] !== undefined ? this.dtEnd.setMinutes(endArray[4]) : {};
+		if(this.$utils.isDate(this.end)) {
+			this.dtEnd = this.end;
+		} else if(this.$utils.isString(this.end)) {
+			// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
+			let endArray = this.end.replace(/-/g,':').replace(' ',':').split(':');
+			endArray[0] !== undefined ? this.dtEnd.setFullYear(endArray[0]) : {};
+			endArray[1] !== undefined ? this.dtEnd.setMonth(endArray[1] - 1) : {};
+			endArray[2] !== undefined ? this.dtEnd.setDate(endArray[2]) : {};
+			endArray[3] !== undefined ? this.dtEnd.setHours(endArray[3]) : {};
+			endArray[4] !== undefined ? this.dtEnd.setMinutes(endArray[4]) : {};
+		}
 		
 		// 判断有效日期结束是否大于有效日期开始，如果不是，则将有效日期结束修改为有效日期开始往后300年
 		if (this.dtEnd <= this.dtStart) {
@@ -352,13 +360,17 @@ export default {
 
 			// 设置默认日期
 			if (this.defaultValue) {
-				// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
-				let dfArray = this.defaultValue.replace(/-/g,':').replace(' ',':').split(':');
-				dfArray[0] !== undefined ? dateDefault.setFullYear(dfArray[0]) : {};
-				dfArray[1] !== undefined ? dateDefault.setMonth(dfArray[1] - 1) : {};
-				dfArray[2] !== undefined ? dateDefault.setDate(dfArray[2]) : {};
-				dfArray[3] !== undefined ? dateDefault.setHours(dfArray[3]) : {};
-				dfArray[4] !== undefined ? dateDefault.setMinutes(dfArray[4]) : {};
+				if(this.$utils.isDate(this.defaultValue)) {
+					dateDefault = this.defaultValue;
+				} else if(this.$utils.isString(this.defaultValue)) {
+					// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
+					let dfArray = this.defaultValue.replace(/-/g,':').replace(' ',':').split(':');
+					dfArray[0] !== undefined ? dateDefault.setFullYear(dfArray[0]) : {};
+					dfArray[1] !== undefined ? dateDefault.setMonth(dfArray[1] - 1) : {};
+					dfArray[2] !== undefined ? dateDefault.setDate(dfArray[2]) : {};
+					dfArray[3] !== undefined ? dateDefault.setHours(dfArray[3]) : {};
+					dfArray[4] !== undefined ? dateDefault.setMinutes(dfArray[4]) : {};
+				}
 			}
 			
 			// 如果有设置默认日期，默认日期不在有效日期范围内，当前日期也不在有效日期范围内，设置默认日期为有效日期开始值
