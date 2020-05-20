@@ -11,7 +11,7 @@
 		<!-- 日期时间选择器 -->
 		<view class="row border border-bottom border-padding">
 			<text class="label">日期时间</text>
-			<view class="value"><DatetimePicker placeholder="请选择日期时间" defaultValue="2020-12-16 12:35" start="2020-05-11 12:30" end="2030-08-16 16:50" fields="minute" @change="changeDatetimePicker"></DatetimePicker></view>
+			<view class="value"><DatetimePicker placeholder="请选择日期时间" defaultValue="2020-12-16 12:35" start="2000-01-01" end="2100-01-01" fields="minute" @change="changeDatetimePicker"></DatetimePicker></view>
 			<text class="iconfont right-icon">&#xe63e;</text>
 		</view>
 		
@@ -43,7 +43,7 @@ export default {
 	 */
 	data() {
 		return {
-			title: 'Hello'
+			title: 'Hello',
 		};
 	},
 

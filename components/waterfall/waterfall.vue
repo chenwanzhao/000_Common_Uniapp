@@ -31,7 +31,7 @@ export default {
 
 		// 列数
 		count: {
-			type: Number,
+			type: [Number, String],
 			default: 2
 		},
 

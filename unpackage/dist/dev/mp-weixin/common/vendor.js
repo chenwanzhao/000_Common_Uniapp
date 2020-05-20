@@ -757,7 +757,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -7091,7 +7091,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7112,14 +7112,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7195,7 +7195,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -8926,7 +8926,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   /**
    * 常用正则表达式
    */
-  regs: {
+  regExps: {
     imgTag: /\<img/gi // 匹配全部的 <img/> 标签
   },
 
@@ -9032,10 +9032,12 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   deepMargeObject: function deepMargeObject(FirstOBJ, SecondOBJ) {
     var ResultOBJ = {};
     for (var key in FirstOBJ) {
-      ResultOBJ[key] = ResultOBJ[key] && ResultOBJ[key].toString() === "[object Object]" ? this.deepMargeObject(ResultOBJ[key], FirstOBJ[key]) : ResultOBJ[key] = FirstOBJ[key];
+      ResultOBJ[key] = ResultOBJ[key] && ResultOBJ[key].toString() === "[object Object]" ? this.deepMargeObject(ResultOBJ[
+      key], FirstOBJ[key]) : ResultOBJ[key] = FirstOBJ[key];
     }
     for (var _key in SecondOBJ) {
-      ResultOBJ[_key] = ResultOBJ[_key] && ResultOBJ[_key].toString() === "[object Object]" ? this.deepMargeObject(ResultOBJ[_key], SecondOBJ[_key]) : ResultOBJ[_key] = SecondOBJ[_key];
+      ResultOBJ[_key] = ResultOBJ[_key] && ResultOBJ[_key].toString() === "[object Object]" ? this.deepMargeObject(ResultOBJ[
+      _key], SecondOBJ[_key]) : ResultOBJ[_key] = SecondOBJ[_key];
     }
     return ResultOBJ;
   },
@@ -9045,32 +9047,101 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       * @param {Date|String} date 日期或日期字符串
       */
   formatDate: function formatDate(date) {
-    var dt = new Date(date);
-    var YYYY = dt.getFullYear();
-    var M = dt.getMonth() + 1;
-    var MM = M >= 10 ? M : '0' + M;
-    var D = dt.getDate();
-    var DD = D >= 10 ? D : '0' + D;
-    var h = dt.getHours();
-    var hh = h >= 10 ? h : '0' + h;
-    var m = dt.getMinutes();
-    var mm = m >= 10 ? m : '0' + m;
-    var s = dt.getSeconds();
-    var ss = s >= 10 ? s : '0' + s;
-    var ms = dt.getMilliseconds();
-    var ms2 = ms;
-    var ms3 = ms;
-    var ms4 = ms;
-    if (ms < 10) {
-      ms2 = '0' + ms;
-      ms3 = '00' + ms;
-      ms4 = '000' + ms;
-    } else if (ms < 100) {
-      ms3 = '0' + ms;
-      ms4 = '00' + ms;
-    } else {
-      ms4 = '0' + ms;
+    var YYYY = null;
+    var M = null;
+    var MM = null;
+    var D = null;
+    var DD = null;
+    var h = null;
+    var hh = null;
+    var m = null;
+    var mm = null;
+    var s = null;
+    var ss = null;
+    var ms = null;
+    var ms2 = null;
+    var ms3 = null;
+    var ms4 = null;
+    var dt = null;
+
+    // 如果 date 是 String 类型
+    if (date && this.isString(date)) {
+      // 当前日期
+      var _dt = new Date();
+
+      // 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
+      var dtArr = date.replace(/\//g, '.').replace(/-/g, '.').replace(/:/g, '.').replace(/T/g, ' ').replace(' ', '.').replace(
+      'Z', '').split('.');
+      // 年
+      if (dtArr.length > 0 && !isNaN(dtArr[0])) {
+        _dt.setFullYear(parseInt(dtArr[0]));
+      }
+      // 月
+      if (dtArr.length > 1 && !isNaN(dtArr[1])) {
+        _dt.setMonth(parseInt(dtArr[1]) - 1);
+      }
+      // 日
+      if (dtArr.length > 2 && !isNaN(dtArr[2])) {
+        _dt.setDate(parseInt(dtArr[2]));
+      }
+      // 时
+      if (dtArr.length > 3 && !isNaN(dtArr[3])) {
+        _dt.setHours(parseInt(dtArr[3]));
+      } else {
+        _dt.setHours(0);
+      }
+      // 分
+      if (dtArr.length > 4 && !isNaN(dtArr[4])) {
+        _dt.setMinutes(parseInt(dtArr[4]));
+      } else {
+        _dt.setMinutes(0);
+      }
+      // 秒
+      if (dtArr.length > 5 && !isNaN(dtArr[5])) {
+        _dt.setSeconds(parseInt(dtArr[5]));
+      } else {
+        _dt.setSeconds(0);
+      }
+      // 毫秒
+      if (dtArr.length > 6 && !isNaN(dtArr[6])) {
+        _dt.setMilliseconds(parseInt(dtArr[6]));
+      } else {
+        _dt.setMilliseconds(0);
+      }
+
+      date = _dt;
     }
+
+    // 如果 date 是 Date 类型
+    if (date && this.isDate(date)) {
+      YYYY = date.getFullYear();
+      M = date.getMonth() + 1;
+      MM = M >= 10 ? M : '0' + M;
+      D = date.getDate();
+      DD = D >= 10 ? D : '0' + D;
+      h = date.getHours();
+      hh = h >= 10 ? h : '0' + h;
+      m = date.getMinutes();
+      mm = m >= 10 ? m : '0' + m;
+      s = date.getSeconds();
+      ss = s >= 10 ? s : '0' + s;
+      ms = date.getMilliseconds();
+      ms2 = ms;
+      ms3 = ms;
+      ms4 = ms;
+      if (ms < 10) {
+        ms2 = '0' + ms;
+        ms3 = '00' + ms;
+        ms4 = '000' + ms;
+      } else if (ms < 100) {
+        ms3 = '0' + ms;
+        ms4 = '00' + ms;
+      } else {
+        ms4 = '0' + ms;
+      }
+    }
+
+    // 返回的数据对象
     var result = {
       YYYY: YYYY,
       MM: MM,
@@ -9087,9 +9158,16 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       ms2: ms2,
       ms3: ms3,
       ms4: ms4,
-      fmt1: YYYY + '-' + MM + '-' + DD,
-      fmt2: YYYY + '年' + MM + '月' + DD + '日',
-      fmt3: YYYY + '-' + MM + '-' + DD + ' ' + hh + ':' + mm,
+      dt: date,
+      fmt1: "".concat(YYYY, "-").concat(MM, "-").concat(DD),
+      fmt2: "".concat(YYYY, "\u5E74").concat(M, "\u6708").concat(D, "\u65E5"),
+      fmt3: "".concat(YYYY, "-").concat(M, "-").concat(D, " ").concat(hh, ":").concat(mm),
+      fmt4: "".concat(h, ":").concat(m, ":").concat(s),
+      fmt5: "".concat(MM, "-").concat(DD),
+      fmt6: "".concat(YYYY, "-").concat(MM),
+      fmt7: "".concat(YYYY, "\u5E74").concat(M, "\u6708"),
+      fmt8: "".concat(h, ":").concat(m),
+      fmt9: "".concat(M, "\u6708").concat(D, "\u65E5"),
       notes: 'YYYY（年），MM（月，补0），M（月，不补0），DD（日，补0），D（日，不补0），hh（时，补0），h（时，不补0），mm（分，补0），m（分，不补0），ss（秒，补0），s（秒，不补0），ms（毫秒，不补0），ms2（毫秒，补0到2位），ms3（毫秒，补0到3位），ms4（毫秒，补0到4位），其余的fmt1，fmt2，... 看格式就知道了！' };
 
     return result;

@@ -55,6 +55,17 @@ export default {
 		// 设置/更新省市区数据
 		this.defaultValue ? this.setDefaultValue() : this.setRange();
 	},
+	
+	/**
+	 * 监听数据
+	 */ 
+	watch: {
+		// 默认值
+		defaultValue() {
+			// 设置/更新省市区数据
+			this.defaultValue ? this.setDefaultValue() : this.setRange();
+		}
+	},
 
 	/**
 	 * 方法

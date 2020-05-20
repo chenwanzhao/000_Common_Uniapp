@@ -164,6 +164,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
 
 var _this;
 var _app = getApp();var Region = function Region() {Promise.all(/*! require.ensure | components/region/region */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/region/region")]).then((function () {return resolve(__webpack_require__(/*! @/components/region/region.vue */ 25));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var DatetimePicker = function DatetimePicker() {__webpack_require__.e(/*! require.ensure | components/datetime-picker/datetime-picker */ "components/datetime-picker/datetime-picker").then((function () {return resolve(__webpack_require__(/*! @/components/datetime-picker/datetime-picker.vue */ 33));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Waterfall = function Waterfall() {__webpack_require__.e(/*! require.ensure | components/waterfall/waterfall */ "components/waterfall/waterfall").then((function () {return resolve(__webpack_require__(/*! @/components/waterfall/waterfall.vue */ 40));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};

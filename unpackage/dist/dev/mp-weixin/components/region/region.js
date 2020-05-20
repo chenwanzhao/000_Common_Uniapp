@@ -173,8 +173,19 @@ var regionData = __webpack_require__(/*! @/static/json/region.json */ 30);var _d
   },
 
   /**
-      * 方法
+      * 监听数据
       */
+  watch: {
+    // 默认值
+    defaultValue: function defaultValue() {
+      // 设置/更新省市区数据
+      this.defaultValue ? this.setDefaultValue() : this.setRange();
+    } },
+
+
+  /**
+          * 方法
+          */
   methods: {
     /**
               * 设置/更新省市区数据

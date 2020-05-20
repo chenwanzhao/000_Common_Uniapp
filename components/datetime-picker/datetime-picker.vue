@@ -21,36 +21,37 @@ export default {
 			default: false
 		},
 
-		// placeholder
+		// 占位符
 		placeholder: {
 			type: String,
 			default: '请选择日期时间'
 		},
 
-		// 表示有效日期时间范围的开始，字符串格式必须为"YYYY-MM-DD hh:mm"
+		// 表示有效日期时间范围的开始，
+		// 字符串格式为 "YYYY-MM-DD hh:mm"
 		start: {
-			type: [String, Date],
-			default: '1970-01-01 00:00'
+			type: String,
+			default: '1970-1-1 00:00'
 		},
 
-		// 表示有效日期时间范围的结束，字符串格式必须为"YYYY-MM-DD hh:mm"
+		// 表示有效日期时间范围的结束
+		// 字符串格式为 "YYYY-MM-DD hh:mm"
 		end: {
-			type: [String, Date],
-			default: '2300-01-01 00:00'
+			type: String,
+			default: '2300-1-1 00:00'
 		},
 
-		// 有效值 year,month,day,hour,minute，表示选择器的粒度
+		// 表示选择器的粒度，有效值：year | month | day | hour | minute
 		fields: {
 			type: String,
 			default: 'minute'
 		},
 
-		// 默认值，字符串格式必须为"YYYY-MM-DD hh:mm"
+		// 默认值
+		// 字符串格式为 "YYYY-MM-DD hh:mm"
 		defaultValue: {
-			type: [String, Date],
-			default() {
-				return null;
-			}
+			type: String,
+			default: ''
 		}
 	},
 
@@ -62,47 +63,54 @@ export default {
 			range: [],
 			value: [],
 			dateStr: '', // 最终显示的字符串
-			dtStart: new Date(), // 有效范围开始
-			dtEnd: new Date(), // 有效范围结束
+			dtStart: null, // 有效范围开始
+			dtEnd: null, // 有效范围结束
 		};
+	},
+	
+	/**
+	 * 监听数据
+	 */ 
+	watch: {
+		// 默认值
+		defaultValue() {
+			// 设置默认值
+			this.setDefaultValue();
+		}
 	},
 
 	/**
 	 * 组件初次加载完成
 	 */
 	mounted() {
-		// 有效日期开始
-		if(this.$utils.isDate(this.start)) {
-			this.dtStart = this.start;
-		} else if(this.$utils.isString(this.start)) {
-			// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
-			let startArray = this.start.replace(/-/g,':').replace(' ',':').split(':');
-			startArray[0] !== undefined ? this.dtStart.setFullYear(startArray[0]) : {};
-			startArray[1] !== undefined ? this.dtStart.setMonth(startArray[1] - 1) : {};
-			startArray[2] !== undefined ? this.dtStart.setDate(startArray[2]) : {};
-			startArray[3] !== undefined ? this.dtStart.setHours(startArray[3]) : {};
-			startArray[4] !== undefined ? this.dtStart.setMinutes(startArray[4]) : {};
+		// 有效日期开始和结束
+		let start = this.start;
+		let end = this.end;
+		
+		// 验证是否是有效的开始和结束日期
+		if(!this.$utils.isString(this.start)) {
+			console.log('开始日期需为String类型，格式为 "YYYY-MM-DD hh:mm"');
+			start = '1970-1-1 00:00';
+		}
+		if(!this.$utils.isString(this.start)) {
+			console.log('结束日期需为String类型，格式为 "YYYY-MM-DD hh:mm"');
+			start = '2300-1-1 00:00';
 		}
 		
-		// 有效日期结束
-		if(this.$utils.isDate(this.end)) {
-			this.dtEnd = this.end;
-		} else if(this.$utils.isString(this.end)) {
-			// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
-			let endArray = this.end.replace(/-/g,':').replace(' ',':').split(':');
-			endArray[0] !== undefined ? this.dtEnd.setFullYear(endArray[0]) : {};
-			endArray[1] !== undefined ? this.dtEnd.setMonth(endArray[1] - 1) : {};
-			endArray[2] !== undefined ? this.dtEnd.setDate(endArray[2]) : {};
-			endArray[3] !== undefined ? this.dtEnd.setHours(endArray[3]) : {};
-			endArray[4] !== undefined ? this.dtEnd.setMinutes(endArray[4]) : {};
-		}
+		// 将开始日期和结束日期转为 Date 
+		let dtStart = this.$utils.formatDate(start).dt;
+		let dtEnd = this.$utils.formatDate(end).dt;
 		
 		// 判断有效日期结束是否大于有效日期开始，如果不是，则将有效日期结束修改为有效日期开始往后300年
-		if (this.dtEnd <= this.dtStart) {
-			this.dtEnd = new Date(this.start);
-			this.dtEnd.setFullYear(this.dtStart.getFullYear() + 300);
-			this.dtEnd.setDate(this.dtEnd.getDate() - 1);
+		if (dtEnd <= dtStart) {
+			dtEnd = this.$utils.formatDate(start).dt;
+			dtEnd.setFullYear(dtStart.getFullYear() + 300);
+			dtEnd.setDate(dtEnd.getDate() - 1);
 		}
+		
+		// 更新开始日期和结束日期
+		this.dtStart = dtStart;
+		this.dtEnd = dtEnd;
 
 		// 设置默认值
 		this.setDefaultValue();
@@ -116,49 +124,53 @@ export default {
 		 * 确认选择
 		 */
 		change(event) {
-			let year, month, month2, day, day2, hour, hour2, minute, minute2;
-			year = this.range[0][this.value[0]].number; // 年
-			if(this.fields == 'month' || this.fields == 'day' || this.fields == 'hour' || this.fields == 'minute') {
+			let year, month, day, hour, minute;
+			if(this.fields == 'year') {
+				year = this.range[0][this.value[0]].number; // 年
+				let dtStr = `${year}`;
+				this.setDateStr(dtStr);
+				this.$emit('change', this.$utils.formatDate(dtStr));
+				return;
+			}
+			else if(this.fields == 'month') {
+				year = this.range[0][this.value[0]].number; // 年
 				month = this.range[1][this.value[1]].number; // 月
-				month2 = month >= 10 ? month : '0' + month; // 月（补0）
+				let dtStr = `${year}-${month}`;
+				this.setDateStr(dtStr);
+				this.$emit('change', this.$utils.formatDate(dtStr));
+				return;
 			}
-			if(this.fields == 'day' || this.fields == 'hour' || this.fields == 'minute') {
+			else if(this.fields == 'day') {
+				year = this.range[0][this.value[0]].number; // 年
+				month = this.range[1][this.value[1]].number; // 月
 				day = this.range[2][this.value[2]].number; // 日
-				day2 = day >= 10 ? day : '0' + day; // 日（补0）
+				let dtStr = `${year}-${month}-${day}`;
+				this.setDateStr(dtStr);
+				this.$emit('change', this.$utils.formatDate(dtStr));
+				return;
 			}
-			if(this.fields == 'hour' || this.fields == 'minute') {
+			else if(this.fields == 'hour') {
+				year = this.range[0][this.value[0]].number; // 年
+				month = this.range[1][this.value[1]].number; // 月
+				day = this.range[2][this.value[2]].number; // 日
 				hour = this.range[3][this.value[3]].number; // 时
-				hour2 = hour >= 10 ? hour : '0' + hour; // 时（补0）
+				day = this.range[2][this.value[2]].number; // 日
+				let dtStr = `${year}-${month}-${day} ${hour}`;
+				this.setDateStr(dtStr);
+				this.$emit('change', this.$utils.formatDate(dtStr));
+				return;
 			}
-			if(this.fields == 'minute') {
+			else if(this.fields == 'minute') {
+				year = this.range[0][this.value[0]].number; // 年
+				month = this.range[1][this.value[1]].number; // 月
+				day = this.range[2][this.value[2]].number; // 日
+				hour = this.range[3][this.value[3]].number; // 时
 				minute = this.range[4][this.value[4]].number; // 分
-				minute2 = minute >= 10 ? minute : '0' + minute; // 分（补0）
+				let dtStr = `${year}-${month}-${day} ${hour}:${minute}`;
+				this.setDateStr(dtStr);
+				this.$emit('change', this.$utils.formatDate(dtStr));
+				return;
 			}
-			
-			// 时间日期数据
-			let date = {
-				year: year,
-				month: month,
-				month2: month2,
-				day: day,
-				day2: day2,
-				hour: hour,
-				hour2: hour2,
-				minute: minute,
-				minute2: minute2,
-			}
-			
-			// 设置显示的值
-			let dt = new Date();
-			dt.setFullYear(year);
-			month != undefined ? dt.setMonth(month - 1) : {};
-			day != undefined ? dt.setDate(day) : {};
-			hour != undefined ? dt.setHours(hour) : {};
-			minute != undefined ? dt.setMinutes(minute) : {};
-			this.setDateStr(dt);
-			
-			// 提交事件
-			this.$emit('change', date);
 		},
 
 		/**
@@ -172,18 +184,18 @@ export default {
 				return;
 			}
 			if(this.fields == 'month') {
-				this.dateStr = `${dt.YYYY}年${dt.MM}月`;
+				this.dateStr = `${dt.YYYY}年${dt.M}月`;
 				return;
 			}
 			if(this.fields == 'day') {
-				this.dateStr = `${dt.YYYY}年${dt.MM}月${dt.DD}日`;
+				this.dateStr = `${dt.YYYY}年${dt.M}月${dt.D}日`;
 				return;
 			}
 			if(this.fields == 'hour') {
-				this.dateStr = `${dt.YYYY}年${dt.MM}月${dt.DD}日 ${dt.hh}时`;
+				this.dateStr = `${dt.YYYY}年${dt.M}月${dt.D}日 ${dt.h}时`;
 				return;
 			}
-			this.dateStr = `${dt.YYYY}年${dt.MM}月${dt.DD}日 ${dt.hh}时${dt.mm}分`;
+			this.dateStr = `${dt.YYYY}年${dt.M}月${dt.D}日 ${dt.h}时${dt.m}分`;
 		},
 		
 		/**
@@ -193,7 +205,6 @@ export default {
 			// 有效日期
 			let yearStart = this.dtStart.getFullYear();
 			let yearEnd = this.dtEnd.getFullYear();
-			
 			// 年
 			let years = [];
 			for (let year = yearStart; year <= yearEnd; year++) {
@@ -354,39 +365,37 @@ export default {
 		 * 设置默认值
 		 */
 		setDefaultValue() {
-			let dateDefault = new Date(); // 默认日期，默认为当前日期
-			let dateStart = this.dtStart; // 有效开始日期
-			let dateEnd = this.dtEnd; // 有效结束日期
-
-			// 设置默认日期
-			if (this.defaultValue) {
-				if(this.$utils.isDate(this.defaultValue)) {
-					dateDefault = this.defaultValue;
-				} else if(this.$utils.isString(this.defaultValue)) {
-					// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
-					let dfArray = this.defaultValue.replace(/-/g,':').replace(' ',':').split(':');
-					dfArray[0] !== undefined ? dateDefault.setFullYear(dfArray[0]) : {};
-					dfArray[1] !== undefined ? dateDefault.setMonth(dfArray[1] - 1) : {};
-					dfArray[2] !== undefined ? dateDefault.setDate(dfArray[2]) : {};
-					dfArray[3] !== undefined ? dateDefault.setHours(dfArray[3]) : {};
-					dfArray[4] !== undefined ? dateDefault.setMinutes(dfArray[4]) : {};
-				}
+			// 默认日期
+			let dtDefault;
+			
+			// 开始日期和结束日期
+			let dtStart = this.dtStart;
+			let dtEnd = this.dtEnd;
+			
+			// 判断是否传了默认日期
+			// 传了默认日期，格式化默认日期为日期对象
+			if(this.defaultValue) {
+				dtDefault = this.$utils.formatDate(this.defaultValue).dt;
+			} 
+			// 如果没有传默认日期，将默认日期设置为当前日期
+			else {
+				dtDefault = new Date();
 			}
 			
-			// 如果有设置默认日期，默认日期不在有效日期范围内，当前日期也不在有效日期范围内，设置默认日期为有效日期开始值
-			if (dateDefault < dateStart || dateDefault > dateEnd) {
-				dateDefault = new Date(this.start);
+			// 如果默认日期不在有效日期范围内，设置默认日期为有效日期开始值
+			if (dtDefault < dtStart || dtDefault > dtEnd) {
+				dtDefault = dtStart;
 			}
 			
 			// 更新 dateStr
-			if(this.defaultValue) this.setDateStr(dateDefault);
+			if(this.defaultValue) this.setDateStr(dtDefault);
 			
 			// 默认值相关数据
-			let dfYear = dateDefault.getFullYear();
-			let dfMonth = dateDefault.getMonth() + 1;
-			let dfDay = dateDefault.getDate();
-			let dfHour = dateDefault.getHours();
-			let dfMinute = dateDefault.getMinutes();
+			let dfYear = dtDefault.getFullYear();
+			let dfMonth = dtDefault.getMonth() + 1;
+			let dfDay = dtDefault.getDate();
+			let dfHour = dtDefault.getHours();
+			let dfMinute = dtDefault.getMinutes();
 			
 			// 设置年数据
 			this.setYearData();

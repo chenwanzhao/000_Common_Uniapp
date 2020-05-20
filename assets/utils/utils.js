@@ -9,19 +9,19 @@
 export default {
 	/**
 	 * 常用正则表达式
-	 */ 
-	regs: {
+	 */
+	regExps: {
 		imgTag: /\<img/gi, // 匹配全部的 <img/> 标签
 	},
-	
+
 	/**
 	 * 常用变量
-	 */ 
+	 */
 	vars: {
 		// 匹配富文本内容中的全部的 <img/> 标签后要替换的内容
 		newImgTag: '<img style="width:100%;margin:20px 0 !important;border-radius:6px;display:block;height:auto;"'
 	},
-	
+
 	/**
 	 * 精确判断数据是否是 Object 类型
 	 * @param {Any} val 要判断的数据
@@ -84,18 +84,18 @@ export default {
 	isBoolean(val) {
 		return Object.prototype.toString.call(val) === '[object Boolean]';
 	},
-	
+
 	/**
 	 * 判断 URL 是否是绝对 URL。
 	 * @param {String} url 要判断的 URL
 	 * @return {Boolean} true：是绝对URL；false：不是绝对URL；
 	 */
 	isAbsoluteURL(url) {
-	  // 如果 URL 以 “<scheme>：//” 或 “//”（协议相对URL）开头，则认为它是绝对的
-	  // RFC 3986 将方案名称定义为以字母开头的字符序列，然后是字母，数字，加号，句点或连字符的任意组合
-	  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+		// 如果 URL 以 “<scheme>：//” 或 “//”（协议相对URL）开头，则认为它是绝对的
+		// RFC 3986 将方案名称定义为以字母开头的字符序列，然后是字母，数字，加号，句点或连字符的任意组合
+		return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
 	},
-	
+
 	/**
 	 * 合并 baseURL 和相对 URL 成一个完整的 URL
 	 * @param {String} baseURL baseURL
@@ -103,8 +103,8 @@ export default {
 	 * @returns {String} 返回组合后的完整 URL
 	 */
 	combineURLs(baseURL, relativeURL) {
-	  return relativeURL && this.isString(relativeURL) && this.isString(baseURL) ? baseURL.replace(/\/+$/, '') + '/' +
-	    relativeURL.replace(/^\/+/, '') : baseURL;
+		return relativeURL && this.isString(relativeURL) && this.isString(baseURL) ? baseURL.replace(/\/+$/, '') + '/' +
+			relativeURL.replace(/^\/+/, '') : baseURL;
 	},
 
 	/**
@@ -116,10 +116,12 @@ export default {
 	deepMargeObject(FirstOBJ, SecondOBJ) {
 		let ResultOBJ = {};
 		for (let key in FirstOBJ) {
-			ResultOBJ[key] = ResultOBJ[key] && ResultOBJ[key].toString() === "[object Object]" ? this.deepMargeObject(ResultOBJ[key], FirstOBJ[key]) : ResultOBJ[key] = FirstOBJ[key];
+			ResultOBJ[key] = ResultOBJ[key] && ResultOBJ[key].toString() === "[object Object]" ? this.deepMargeObject(ResultOBJ[
+				key], FirstOBJ[key]) : ResultOBJ[key] = FirstOBJ[key];
 		}
 		for (let key in SecondOBJ) {
-			ResultOBJ[key] = ResultOBJ[key] && ResultOBJ[key].toString() === "[object Object]" ? this.deepMargeObject(ResultOBJ[key], SecondOBJ[key]) : ResultOBJ[key] = SecondOBJ[key];
+			ResultOBJ[key] = ResultOBJ[key] && ResultOBJ[key].toString() === "[object Object]" ? this.deepMargeObject(ResultOBJ[
+				key], SecondOBJ[key]) : ResultOBJ[key] = SecondOBJ[key];
 		}
 		return ResultOBJ;
 	},
@@ -129,7 +131,7 @@ export default {
 	 * @param {Date|String} date 日期或日期字符串
 	 */
 	formatDate(date) {
-		let YYYY = null; 
+		let YYYY = null;
 		let M = null;
 		let MM = null;
 		let D = null;
@@ -144,21 +146,58 @@ export default {
 		let ms2 = null;
 		let ms3 = null;
 		let ms4 = null;
+		let dt = null;
 		
-		if(this.isString(date)) {
+		// 如果 date 是 String 类型
+		if (date && this.isString(date)) {
+			// 当前日期
+			let dt = new Date();
+
 			// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
-			let dtAyy = date.replace(/-/g,':').replace(' ',':').split(':');
-			date = new Date();
-			dtArr[0] != undefined ? date.setFullYear(dtArr[0]) : {}; // 年
-			dtArr[1] != undefined ? date.setMonth(dtArr[1] - 1) : {}; // 月
-			dtArr[2] != undefined ? date.setDate(dtArr[2]) : {}; // 日
-			dtArr[3] != undefined ? date.setHours(dtArr[3]) : {}; // 时
-			dtArr[4] != undefined ? date.setMinutes(dtArr[4]) : {}; // 分
-			dtArr[5] != undefined ? date.setSeconds(dtArr[5]) : {}; // 秒
-			dtArr[6] != undefined ? date.setMilliseconds(dtArr[6]) : {}; // 毫秒
-		} 
+			let dtArr = date.replace(/\//g, '.').replace(/-/g, '.').replace(/:/g, '.').replace(/T/g, ' ').replace(' ', '.').replace(
+				'Z', '').split('.');
+			// 年
+			if (dtArr.length > 0 && !isNaN(dtArr[0])) {
+				dt.setFullYear(parseInt(dtArr[0]));
+			}
+			// 月
+			if (dtArr.length > 1 && !isNaN(dtArr[1])) {
+				dt.setMonth(parseInt(dtArr[1]) - 1);
+			}
+			// 日
+			if (dtArr.length > 2 && !isNaN(dtArr[2])) {
+				dt.setDate(parseInt(dtArr[2]));
+			}
+			// 时
+			if (dtArr.length > 3 && !isNaN(dtArr[3])) {
+				dt.setHours(parseInt(dtArr[3]));
+			} else {
+				dt.setHours(0);
+			}
+			// 分
+			if (dtArr.length > 4 && !isNaN(dtArr[4])) {
+				dt.setMinutes(parseInt(dtArr[4]));
+			} else {
+				dt.setMinutes(0);
+			}
+			// 秒
+			if (dtArr.length > 5 && !isNaN(dtArr[5])) {
+				dt.setSeconds(parseInt(dtArr[5]));
+			} else {
+				dt.setSeconds(0);
+			}
+			// 毫秒
+			if (dtArr.length > 6 && !isNaN(dtArr[6])) {
+				dt.setMilliseconds(parseInt(dtArr[6]));
+			} else {
+				dt.setMilliseconds(0);
+			}
+
+			date = dt;
+		}
 		
-		if(this.isDate(date)) {
+		// 如果 date 是 Date 类型
+		if (date && this.isDate(date)) {
 			YYYY = date.getFullYear();
 			M = date.getMonth() + 1;
 			MM = M >= 10 ? M : '0' + M;
@@ -185,7 +224,7 @@ export default {
 				ms4 = '0' + ms;
 			}
 		}
-		
+
 		// 返回的数据对象
 		let result = {
 			YYYY: YYYY,
@@ -203,9 +242,16 @@ export default {
 			ms2: ms2,
 			ms3: ms3,
 			ms4: ms4,
-			fmt1: YYYY + '-' + MM + '-' + DD,
-			fmt2: YYYY + '年' + MM + '月' + DD + '日',
-			fmt3: YYYY + '-' + MM + '-' + DD + ' ' + hh + ':' + mm,
+			dt: date,
+			fmt1: `${YYYY}-${MM}-${DD}`,
+			fmt2: `${YYYY}年${M}月${D}日`, 
+			fmt3: `${YYYY}-${M}-${D} ${hh}:${mm}`,
+			fmt4: `${h}:${m}:${s}`,
+			fmt5: `${MM}-${DD}`,
+			fmt6: `${YYYY}-${MM}`,
+			fmt7: `${YYYY}年${M}月`,
+			fmt8: `${h}:${m}`,
+			fmt9: `${M}月${D}日`,
 			notes: 'YYYY（年），MM（月，补0），M（月，不补0），DD（日，补0），D（日，不补0），hh（时，补0），h（时，不补0），mm（分，补0），m（分，不补0），ss（秒，补0），s（秒，不补0），ms（毫秒，不补0），ms2（毫秒，补0到2位），ms3（毫秒，补0到3位），ms4（毫秒，补0到4位），其余的fmt1，fmt2，... 看格式就知道了！'
 		};
 		return result;

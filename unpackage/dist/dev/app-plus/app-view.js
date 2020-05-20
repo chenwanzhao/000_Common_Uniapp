@@ -95,6 +95,7 @@
 "use strict";
 
 __webpack_require__(/*! uni-pages?{"type":"view"} */ 1);
+
 function initView() {
   function injectStyles(context) {
 
@@ -1539,7 +1540,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../Program Files/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 15);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * @说明：样式全局变量，此文件不需要引用，自动生效\r\n * @作者：陈万照\r\n * @公司：山东标梵互动技术有限公司\r\n * @官网：http://biaofun.com/\r\n * @版本：v1.0.0\r\n * @时间：2020年4月28日11:28:13\r\n */\r\n/* 颜色变量 */\r\n/* 字体大小 */\n.waterfall[data-v-591ed9e8] {\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  -webkit-column-width: auto;\r\n          column-width: auto;\n}\n.item[data-v-591ed9e8] {\r\n  -webkit-column-break-inside: avoid;\r\n          break-inside: avoid;\r\n  overflow: hidden;\r\n  border-radius: 4upx;\n}\n.image[data-v-591ed9e8] {\r\n  width: 100%;\r\n  display: block;\n}\n.title[data-v-591ed9e8] {\r\n  display: block;\r\n  height: 80upx;\r\n  line-height: 80upx;\r\n  text-align: center;\r\n  font-weight: 500;\r\n  color: #050505;\r\n  font-size: 28upx;\r\n  background: #f2f3f4;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * @说明：样式全局变量，此文件不需要引用，自动生效\r\n * @作者：陈万照\r\n * @公司：山东标梵互动技术有限公司\r\n * @官网：http://biaofun.com/\r\n * @版本：v1.0.0\r\n * @时间：2020年4月28日11:28:13\r\n */\r\n/* 颜色变量 */\r\n/* 字体大小 */\n.waterfall[data-v-591ed9e8] {\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  -webkit-column-width: auto;\r\n          column-width: auto;\n}\n.item[data-v-591ed9e8] {\r\n  -webkit-column-break-inside: avoid;\r\n          break-inside: avoid;\r\n  overflow: hidden;\r\n  -webkit-border-radius: 4upx;\r\n          border-radius: 4upx;\n}\n.image[data-v-591ed9e8] {\r\n  width: 100%;\r\n  display: block;\n}\n.title[data-v-591ed9e8] {\r\n  display: block;\r\n  height: 80upx;\r\n  line-height: 80upx;\r\n  text-align: center;\r\n  font-weight: 500;\r\n  color: #050505;\r\n  font-size: 28upx;\r\n  background: #f2f3f4;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -1641,7 +1642,7 @@ if(false) {}
 
 // Imports
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../Program Files/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 15);
-var ___CSS_LOADER_GET_URL_IMPORT___ = __webpack_require__(/*! ../../Program Files/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/getUrl.js */ 41);
+var ___CSS_LOADER_GET_URL_IMPORT___ = __webpack_require__(/*! ../../Program Files/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/lib/app-plus/getUrl.js */ 41);
 var ___CSS_LOADER_URL_IMPORT_0___ = __webpack_require__(/*! @/static/fonts/iconfont.ttf */ 42);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = ___CSS_LOADER_GET_URL_IMPORT___(___CSS_LOADER_URL_IMPORT_0___);
@@ -1653,9 +1654,9 @@ module.exports = exports;
 
 /***/ }),
 /* 41 */
-/*!********************************************************!*\
-  !*** ./node_modules/css-loader/dist/runtime/getUrl.js ***!
-  \********************************************************/
+/*!**************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/lib/app-plus/getUrl.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1665,35 +1666,35 @@ module.exports = exports;
 module.exports = function (url, options) {
   if (!options) {
     // eslint-disable-next-line no-param-reassign
-    options = {};
+    options = {}
   } // eslint-disable-next-line no-underscore-dangle, no-param-reassign
 
-
-  url = url && url.__esModule ? url.default : url;
+  url = url && url.__esModule ? url.default : url
 
   if (typeof url !== 'string') {
-    return url;
+    return url
   } // If url is already wrapped in quotes, remove them
-
 
   if (/^['"].*['"]$/.test(url)) {
     // eslint-disable-next-line no-param-reassign
-    url = url.slice(1, -1);
+    url = url.slice(1, -1)
   }
 
   if (options.hash) {
     // eslint-disable-next-line no-param-reassign
-    url += options.hash;
+    url += options.hash
   } // Should url be wrapped?
   // See https://drafts.csswg.org/css-values-3/#urls
 
-
   if (/["'() \t\n]/.test(url) || options.needQuotes) {
-    return "\"".concat(url.replace(/"/g, '\\"').replace(/\n/g, '\\n'), "\"");
+    return '"'.concat(url.replace(/"/g, '\\"').replace(/\n/g, '\\n'), '"')
   }
+  if (url.indexOf('/') === 0) {
+    return url.substr(1)
+  }
+  return url
+}
 
-  return url;
-};
 
 /***/ }),
 /* 42 */
@@ -1703,7 +1704,7 @@ module.exports = function (url, options) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "static/fonts/iconfont.ttf";
+module.exports = "/static/fonts/iconfont.ttf";
 
 /***/ })
 /******/ ]);
