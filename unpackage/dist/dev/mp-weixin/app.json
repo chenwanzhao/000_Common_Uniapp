@@ -1,6 +1,7 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/index/index",
+    "pages/list/list"
   ],
   "subPackages": [],
   "window": {
@@ -22,6 +23,8 @@
     "animationDuration": 300
   },
   "tabBar": {
+    "fontSize": "10px",
+    "height": "50px",
     "color": "#333333",
     "selectedColor": "#FF9900",
     "backgroundColor": "#FFFFFF",
@@ -34,17 +37,15 @@
         "selectedIconPath": "static/logo.png"
       },
       {
-        "pagePath": "pages/index/index",
-        "text": "首页",
+        "pagePath": "pages/list/list",
+        "text": "列表",
         "iconPath": "static/logo.png",
         "selectedIconPath": "static/logo.png"
       }
     ],
     "position": "bottom",
-    "fontSize": "10px",
-    "iconWidth": "24px",
-    "height": "50px"
+    "iconWidth": "24px"
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap59.json"
+  "sitemapLocation": "sitemap77.json"
 }

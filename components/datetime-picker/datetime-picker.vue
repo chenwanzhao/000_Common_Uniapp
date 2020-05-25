@@ -1,4 +1,13 @@
-<!-- 日期时间选择器 -->
+<!-- 
+ * @插件：日期时间选择器
+ * @作者：陈万照
+ * @公司：山东标梵互动信息技术有限公司
+ * @官网：http://biaofun.com/
+ * @微信：C207668802
+ * @QQ：207668802
+ * @邮箱：cwz@biaofun.com || 207668802@qq.com
+ * @版本：v1.0.5
+ -->
 <template>
 	<view class="datatime">
 		<picker mode="multiSelector" :range="range" range-key="text" @change="change" @columnchange="columnchange" :value="value" :disabled="disabled">

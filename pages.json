@@ -40,6 +40,14 @@
 			"disableScroll": false, // 设置为 true 则页面整体不能上下滚动（bounce效果），只在页面配置中有效，在globalStyle中设置无效
 			"usingComponents": {} // 引用小程序组件
 		}
+	}, {
+		"path": "pages/list/list", // 配置页面路径
+		"style": { // 用于设置每个页面的状态栏、导航条、标题、窗口背景色等，页面中配置项会覆盖 globalStyle 中相同的配置项
+			"navigationBarTitleText": "uni-app", // 导航栏标题文字内容
+			"enablePullDownRefresh": false, // 是否开启下拉刷新
+			"disableScroll": true, // 设置为 true 则页面整体不能上下滚动（bounce效果），只在页面配置中有效，在globalStyle中设置无效
+			"usingComponents": {} // 引用小程序组件
+		}
 	}],
 
 	// 如果应用是一个多 tab 应用，可以通过 tabBar 配置项指定 tab 栏的表现，以及 tab 切换时显示的对应页
@@ -49,6 +57,8 @@
 	// Tips：tabbar 的页面展现过一次后就保留在内存中，再次切换 tabbar 页面，只会触发每个页面的onShow，不会再触发onLoad
 	// Tips：顶部的 tabbar 目前仅微信小程序上支持。需要用到顶部选项卡的话，建议不使用 tabbar 的顶部设置，而是自己做顶部选项卡，可参考 hello uni-app->模板->顶部选项卡
 	"tabBar": {
+		"fontSize": "16px",
+		"height": "75px",
 		"color": "#333333", // tab 上的文字默认颜色
 		"selectedColor": "#FF9900", // tab 上的文字选中时的颜色
 		"backgroundColor": "#FFFFFF", // tab 的背景色
@@ -60,8 +70,8 @@
 			"iconPath": "static/logo.png", // 图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效，不支持网络图片，不支持字体图标
 			"selectedIconPath": "static/logo.png" // 选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效
 		}, {
-			"pagePath": "pages/index/index", // 页面路径，必须在 pages 中先定义
-			"text": "首页", // tab 上按钮文字，在 5+APP 和 H5 平台为非必填。例如中间可放一个没有文字的+号图标
+			"pagePath": "pages/list/list", // 页面路径，必须在 pages 中先定义
+			"text": "列表", // tab 上按钮文字，在 5+APP 和 H5 平台为非必填。例如中间可放一个没有文字的+号图标
 			"iconPath": "static/logo.png", // 图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效，不支持网络图片，不支持字体图标
 			"selectedIconPath": "static/logo.png" // 选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效
 		}],

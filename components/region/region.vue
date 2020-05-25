@@ -1,4 +1,16 @@
-<!-- 省/市/区选择器 -->
+<!-- 
+ * 省市区选择器
+ * 省市区数据定义在了 json 文件中，路径为 '@/static/json/region.json' 
+ * 注释：因为 uniapp 的 picker 组件的 mode = multiSelector（多列选择器）模式本身就不支持支付宝小程序，所以此组件也不支持支付宝小程序。
+ * 
+ * @作者：陈万照
+ * @公司：山东标梵互动信息技术有限公司
+ * @官网：http://biaofun.com/
+ * @微信：C207668802
+ * @QQ：207668802
+ * @邮箱：cwz@biaofun.com || 207668802@qq.com
+ * @版本：v1.0.4
+ -->
 <template>
 	<view class="region">
 		<picker mode="multiSelector" :range="range" range-key="name" @change="change" @columnchange="columnchange" :value="value" :disabled="disabled">

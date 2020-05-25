@@ -1,4 +1,15 @@
-<!-- 瀑布流布局 -->
+<!-- 
+ * 瀑布流布局
+ * 默认两列布局，列间距为 "12px"
+ * 
+ * @作者：陈万照
+ * @公司：山东标梵互动信息技术有限公司
+ * @官网：http://biaofun.com/
+ * @微信：C207668802
+ * @QQ：207668802
+ * @邮箱：cwz@biaofun.com || 207668802@qq.com
+ * @版本：v1.0.1
+ -->
 <template>
 	<view class="waterfall" id="waterfall" :style="{ 'column-count': count, 'column-gap': gap }">
 		<view class="item" v-for="(item, index) in list" :key="index" :style="{ 'margin-bottom': gap }" @tap="onTapItem(item, index)">
