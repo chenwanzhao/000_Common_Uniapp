@@ -6,7 +6,7 @@
  * @版本：v1.0.0
  * @时间：2020年4月28日11:28:13
  */
-import Utils from '@/assets/utils/utils.js'; // 工具集
+import Utils from './utils.js'; // 工具集
 
 /**
  * 请求方法

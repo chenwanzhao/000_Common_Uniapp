@@ -5,8 +5,8 @@
 import Vue from 'vue';
 import App from './App';
 import Store from './store';
-import $http from '@/assets/http/http.js';
-import $utils from '@/assets/utils/utils.js';
+import $http from './common/js/http.js';
+import $utils from './common/js/utils.js';
 
 Vue.prototype.$utils = $utils; // 工具集
 Vue.prototype.$http = $http; // 封装的HTTP

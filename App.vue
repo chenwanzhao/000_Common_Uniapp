@@ -46,5 +46,5 @@
 
 <style lang="scss">
 /* bf.scss */ 
-@import '@/static/style/bf.scss';
+@import './common/style/bf.scss';
 </style>

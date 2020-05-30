@@ -19,8 +19,7 @@
   -webkit-column-break-inside: avoid;
           break-inside: avoid;
   overflow: hidden;
-  -webkit-border-radius: 4rpx;
-          border-radius: 4rpx;
+  border-radius: 4rpx;
 }
 .image.data-v-591ed9e8 {
   width: 100%;

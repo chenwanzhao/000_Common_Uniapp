@@ -104,11 +104,11 @@
 /******/
 /******/
 /******/ 		// mini-css-extract-plugin CSS loading
-/******/ 		var cssChunks = {"components/region/region":1,"components/datetime-picker/datetime-picker":1,"components/waterfall/waterfall":1,"components/loading-more/loading-more":1};
+/******/ 		var cssChunks = {"components/marquee-text/marquee-text":1,"components/region/region":1,"components/datetime-picker/datetime-picker":1,"components/waterfall/waterfall":1,"components/loading-more/loading-more":1};
 /******/ 		if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
 /******/ 		else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
 /******/ 			promises.push(installedCssChunks[chunkId] = new Promise(function(resolve, reject) {
-/******/ 				var href = "" + ({"components/region/region":"components/region/region","components/datetime-picker/datetime-picker":"components/datetime-picker/datetime-picker","components/waterfall/waterfall":"components/waterfall/waterfall","components/loading-more/loading-more":"components/loading-more/loading-more"}[chunkId]||chunkId) + ".wxss";
+/******/ 				var href = "" + ({"components/marquee-text/marquee-text":"components/marquee-text/marquee-text","components/region/region":"components/region/region","components/datetime-picker/datetime-picker":"components/datetime-picker/datetime-picker","components/waterfall/waterfall":"components/waterfall/waterfall","components/loading-more/loading-more":"components/loading-more/loading-more"}[chunkId]||chunkId) + ".wxss";
 /******/ 				var fullhref = __webpack_require__.p + href;
 /******/ 				var existingLinkTags = document.getElementsByTagName("link");
 /******/ 				for(var i = 0; i < existingLinkTags.length; i++) {

@@ -150,50 +150,47 @@ export default {
 		
 		// 如果 date 是 String 类型
 		if (date && this.isString(date)) {
-			// 当前日期
-			let dt = new Date();
-
 			// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
 			let dtArr = date.replace(/\//g, '.').replace(/-/g, '.').replace(/:/g, '.').replace(/T/g, ' ').replace(' ', '.').replace(
 				'Z', '').split('.');
+				
+			let year = 2020; 
+			let month = 12;
+			let day = 18;
+			let hour = 0; 
+			let minute = 0;
+			let second = 0;
+			let millisecond = 0;
 			// 年
 			if (dtArr.length > 0 && !isNaN(dtArr[0])) {
-				dt.setFullYear(parseInt(dtArr[0]));
+				year = parseInt(dtArr[0]);
 			}
 			// 月
 			if (dtArr.length > 1 && !isNaN(dtArr[1])) {
-				dt.setMonth(parseInt(dtArr[1]) - 1);
+				month = parseInt(dtArr[1]);
 			}
 			// 日
 			if (dtArr.length > 2 && !isNaN(dtArr[2])) {
-				dt.setDate(parseInt(dtArr[2]));
+				day = parseInt(dtArr[2]);
 			}
 			// 时
 			if (dtArr.length > 3 && !isNaN(dtArr[3])) {
-				dt.setHours(parseInt(dtArr[3]));
-			} else {
-				dt.setHours(0);
+				hour = parseInt(dtArr[3]);
 			}
 			// 分
 			if (dtArr.length > 4 && !isNaN(dtArr[4])) {
-				dt.setMinutes(parseInt(dtArr[4]));
-			} else {
-				dt.setMinutes(0);
+				minute = parseInt(dtArr[4]);
 			}
 			// 秒
 			if (dtArr.length > 5 && !isNaN(dtArr[5])) {
-				dt.setSeconds(parseInt(dtArr[5]));
-			} else {
-				dt.setSeconds(0);
+				second = parseInt(dtArr[5]);
 			}
 			// 毫秒
 			if (dtArr.length > 6 && !isNaN(dtArr[6])) {
-				dt.setMilliseconds(parseInt(dtArr[6]));
-			} else {
-				dt.setMilliseconds(0);
+				millisecond = parseInt(dtArr[6]);
 			}
-
-			date = dt;
+					
+			date = new Date(year, month - 1, day, hour, minute, second, millisecond);
 		}
 		
 		// 如果 date 是 Date 类型

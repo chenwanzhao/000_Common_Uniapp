@@ -6,7 +6,7 @@
  * @微信：C207668802
  * @QQ：207668802
  * @邮箱：cwz@biaofun.com || 207668802@qq.com
- * @版本：v1.0.5
+ * @版本：v1.0.6
  -->
 <template>
 	<view class="datatime">
@@ -257,6 +257,7 @@ export default {
 		 * @param {Number} month 月 
 		 */ 
 		setDayData(year, month) {
+			console.log(year+'-'+month);
 			// 有效日期
 			let yearStart = this.dtStart.getFullYear();
 			let monthStart = this.dtStart.getMonth() + 1;
@@ -272,28 +273,7 @@ export default {
 			if(year == yearEnd && month == monthEnd) {
 				dayEndIndex = dayEnd;
 			} else {
-				// 本月1号
-				let dtThisMonth = new Date();
-				dtThisMonth.setFullYear(year);
-				dtThisMonth.setMonth(month - 1);
-				dtThisMonth.setDate(1);
-				dtThisMonth.setHours(0);
-				dtThisMonth.setMinutes(0);
-				dtThisMonth.setSeconds(0);
-				dtThisMonth.setMilliseconds(0);
-				
-				// 下月1号
-				let dtNextMonth = new Date();
-				dtNextMonth.setFullYear(year);
-				dtNextMonth.setMonth(month);
-				dtNextMonth.setDate(1);
-				dtNextMonth.setHours(0);
-				dtNextMonth.setMinutes(0);
-				dtNextMonth.setSeconds(0);
-				dtNextMonth.setMilliseconds(0);
-				
-				// 计算出本月的总天数
-				dayEndIndex = parseInt((dtNextMonth - dtThisMonth) / (86400000));
+				dayEndIndex = (new Date(year, month, 0)).getDate();
 			}
 			for (let day = dayStartIndex; day <= dayEndIndex; day++) {
 				let item = {
@@ -302,6 +282,7 @@ export default {
 				};
 				days.push(item);
 			}
+			console.log('B', days)
 			this.range.splice(2, 1, days);
 		},
 		

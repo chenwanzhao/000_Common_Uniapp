@@ -5,6 +5,7 @@
   "usingComponents": {
     "region": "/components/region/region",
     "datetime-picker": "/components/datetime-picker/datetime-picker",
-    "waterfall": "/components/waterfall/waterfall"
+    "waterfall": "/components/waterfall/waterfall",
+    "marquee-text": "/components/marquee-text/marquee-text"
   }
 }
