@@ -15,7 +15,8 @@ function http(config) {
 	// 自己扩展的一些配置字段
 	let defaults = {
 		// [String] 接口基准路径
-		baseURL: 'https://wx.jnchf.com',
+		baseURL: 'http://mas.biaofun.com.cn/',
+		// baseURL: 'http://127.0.0.1:8080/api/',
 
 		// [String] 请求路径
 		url: '',
@@ -44,7 +45,7 @@ function http(config) {
 		sslVerify: true,
 
 		// [Boolean] 是否显示 loading？
-		showLoading: true,
+		showLoading: false,
 
 		// [String] loading 文本？
 		loadingText: '加载中...',
@@ -53,13 +54,13 @@ function http(config) {
 		loadingMask: true,
 
 		// [Boolean] 是否弹窗显示成功提示？
-		showSuccessTips: true,
+		showSuccessTips: false,
 		
 		// [String] 指定成功提示文本
 		successTipsText: '请求成功',
 		
 		// [Boolean] 是否将成功提示文本设置为接口返回的 message
-		successTipsMessage: true,
+		successTipsMessage: false,
 
 		// [String] 成功消息提示框的图标
 		successTipsIcon: 'none',
@@ -106,6 +107,7 @@ function http(config) {
 
 	// 是否需要显示 loading？
 	if (options.showLoading) {
+		console.log('显示loading')
 		uni.showLoading({
 			title: options.loadingText,
 			mask: options.loadingMask
@@ -124,13 +126,19 @@ function http(config) {
 			responseType: options.responseType,
 			sslVerify: options.sslVerify,
 			success(res) {
+				// 判断是否需要关闭loading
+				if (options.showLoading) {
+					console.log('关闭loading')
+					uni.hideLoading();
+				}
+				
 				console.log('接口请求成功：', res);
 				if (res.statusCode == 200) {
-					if(res.data.code == 200) {
+					if(res.data.state == 1) {
 						// 判断是否需要显示成功提示
 						if (options.showSuccessTips) {
 							uni.showToast({
-								title: options.successTipsMessage ? res.data.msg : options.successTipsText,
+								title: options.successTipsMessage ? res.data.message : options.successTipsText,
 								icon: options.successTipsIcon,
 								image: options.successTipsImage,
 								mask: options.successTipsMask,
@@ -143,7 +151,7 @@ function http(config) {
 						// 判断是否需要显示失败提示
 						if (options.showErrorTips) {
 							uni.showToast({
-								title: options.errorTipsMessage ? res.data.msg : options.errorTipsText,
+								title: options.errorTipsMessage ? res.data.message : options.errorTipsText,
 								icon: options.errorTipsIcon,
 								image: options.errorTipsImage,
 								mask: options.errorTipsMask,
@@ -153,8 +161,22 @@ function http(config) {
 						}
 						// 定义失败对象
 						let error = {
-							code: res.data.code,
-							msg: res.data.msg
+							code: res.data.state,
+							msg: res.data.message
+						}
+						
+						// 登录过期
+						if(res.data.state == '-1') {
+							uni.showToast({
+								title: '登录失效',
+								icon: 'none'
+							});
+							let timer = setTimeout(() => {
+								uni.removeStorageSync('userinfo');
+								uni.redirectTo({
+									url: '/pages/login/login'
+								});
+							}, 2500);
 						}
 						reject(error);
 					}
@@ -162,7 +184,7 @@ function http(config) {
 					// 判断是否需要显示失败提示
 					if (options.showErrorTips) {
 						uni.showToast({
-							title: options.errorTipsMessage ? res.errMsg : options.errorTipsText,
+							title: options.errorTipsMessage ? res.data.message : options.errorTipsText,
 							icon: options.errorTipsIcon,
 							image: options.errorTipsImage,
 							mask: options.errorTipsMask,
@@ -173,7 +195,7 @@ function http(config) {
 					// 定义失败对象
 					let error = {
 						code: res.statusCode,
-						msg: res.errMsg
+						msg: res.data.message
 					}
 					// 根据不同的 statusCode 执行不同的操作
 					if (res.statusCode == 404) {
@@ -185,10 +207,22 @@ function http(config) {
 			},
 			fail(res) {
 				console.log('接口请求失败：', res);
+				// 判断是否需要关闭loading
+				if (options.showLoading) {
+					console.log('关闭loading')
+					uni.hideLoading();
+				}
+				
+				// 定义失败对象
+				let error = {
+					code: 1991,
+					msg: '未知错误'
+				}
+				
 				// 判断是否需要显示失败提示
 				if (options.showErrorTips) {
 					uni.showToast({
-						title: options.errorTipsText,
+						title: options.errorTipsMessage ? error.message : options.errorTipsText,
 						icon: options.errorTipsIcon,
 						image: options.errorTipsImage,
 						mask: options.errorTipsMask,
@@ -196,19 +230,8 @@ function http(config) {
 						position: options.errorTipsPosition
 					});
 				}
-				// 定义失败对象
-				let error = {
-					code: 1991,
-					msg: '未知错误'
-				}
+				
 				reject(error);
-			},
-			complete() {
-				console.log('接口请求完成！');
-				// 判断是否需要关闭 loading
-				if (options.showLoading) {
-					uni.hideLoading();
-				}
 			}
 		});
 	});

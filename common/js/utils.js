@@ -21,6 +21,15 @@ export default {
 		// 匹配富文本内容中的全部的 <img/> 标签后要替换的内容
 		newImgTag: '<img style="width:100%;margin:20px 0 !important;border-radius:6px;display:block;height:auto;"'
 	},
+	
+	/**
+	 * 同步 try catch 的进一步封装处理
+	 */ 
+	asyncTasks(promise) {
+		return promise.then(data => {
+			return [null, data];
+		}).catch(err => [err]);
+	},
 
 	/**
 	 * 精确判断数据是否是 Object 类型
@@ -292,5 +301,25 @@ export default {
 			for (let i = 0; i < a[1].length; i++) re += AA[a[1].charAt(i)];
 		}
 		return re;
-	}
+	},
+	
+	/**
+	 * 生成指定长度的随机字符串
+	 * @param {Number} min 最小程度
+	 * @param {Number} max 最大长度 
+	 * @return {String} 返回生成的字符串
+	 */
+	randomString(min, max) {
+		var returnStr = "",
+			range = (max ? Math.round(Math.random() * (max - min)) + min : min),
+			arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+				'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+				'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+			];
+		for (var i = 0; i < range; i++) {
+			var index = Math.round(Math.random() * (arr.length - 1));
+			returnStr += arr[index];
+		}
+		return returnStr;
+	},
 }
