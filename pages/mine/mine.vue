@@ -1,6 +1,6 @@
-<!-- 首页 -->
+<!-- 模板页 -->
 <template>
-	<view class="page"><text>首页</text></view>
+	<view class="page"><text>我的</text></view>
 </template>
 
 <!-- 页面数据，页面逻辑 -->

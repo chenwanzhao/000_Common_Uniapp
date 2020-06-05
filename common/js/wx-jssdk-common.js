@@ -11,6 +11,7 @@ import wx  from 'jweixin-module';
 export default {
 	/**
 	 * 获取 JS-SDK 注册信息
+	 * @param {String} href 页面路径
 	 */
 	queryConfig(href) {
 		return new Promise((resolve, reject) => {

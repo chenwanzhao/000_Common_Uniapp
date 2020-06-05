@@ -1,2 +1,2 @@
 # 000_Common_Uniapp
- uniapp通用项目
+ uniapp基准项目

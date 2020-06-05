@@ -6,7 +6,8 @@
  * @版本：v1.0.0
  * @时间：2020年4月28日11:28:13
  */
-import Utils from './utils.js'; // 工具集
+import App from '@/App'; // App
+import Utils from './utils.js'; // 封装的工具集
 
 /**
  * 请求方法
@@ -15,8 +16,7 @@ function http(config) {
 	// 自己扩展的一些配置字段
 	let defaults = {
 		// 接口基准路径
-		baseURL: 'http://mas.biaofun.com.cn/',
-		// baseURL: 'http://127.0.0.1:8080/api/', 
+		baseURL: App.globalData.baseURL,
 
 		// 接口名称
 		url: '',

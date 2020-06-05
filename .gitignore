@@ -9,3 +9,7 @@ target/
 logs/
 .svn/
 dist/
+node_modules
+node_modules/
+unpackage
+unpackage/

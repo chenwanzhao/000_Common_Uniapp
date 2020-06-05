@@ -12,14 +12,12 @@
 			console.log('App Launch');
 		},
     
-    
     /**
 		 * 当 uni-app 启动，或从后台进入前台显示
      */
 		onShow: function() {
 			console.log('App Show')
 		},
-    
     
     /**
 		 * 当 uni-app 从前台进入后台
@@ -28,7 +26,6 @@
 			console.log('App Hide')
 		},
     
-    
     /**
 		 * 当 uni-app 报错时触发
      */
@@ -36,15 +33,18 @@
     	console.log('App Error')
     },
     
-    
     /**
 		 * 全局数据
      */
-    globalData: {}
+    globalData: {
+			// 基准路径
+			baseURL: 'http://mas.biaofun.com.cn/',
+			// baseURL: 'http://127.0.0.1:8080/api/', 
+		}
 	}
 </script>
 
 <style lang="scss">
-/* bf.scss */ 
-@import './common/style/bf.scss';
+/* 全局样式 */ 
+@import './common/style/common.scss';
 </style>

@@ -8,23 +8,12 @@
  */
 export default {
 	/**
-	 * 常用正则表达式
-	 */
-	regExps: {
-		imgTag: /\<img/gi, // 匹配全部的 <img/> 标签
-	},
-
-	/**
-	 * 常用变量
-	 */
-	vars: {
-		// 匹配富文本内容中的全部的 <img/> 标签后要替换的内容
-		newImgTag: '<img style="width:100%;margin:20px 0 !important;border-radius:6px;display:block;height:auto;"'
-	},
-	
-	/**
 	 * 同步 try catch 的进一步封装处理
-	 */ 
+	 * 使用方法：
+	 * let [err, res] = await this.$utils.asyncTasks(Promise函数);
+	 * if(res) 成功
+	 * if(err) 失败
+	 */
 	asyncTasks(promise) {
 		return promise.then(data => {
 			return [null, data];
@@ -134,6 +123,26 @@ export default {
 		}
 		return ResultOBJ;
 	},
+	
+	/**
+	 * 生成指定长度的随机字符串
+	 * @param {Number} min 最小程度
+	 * @param {Number} max 最大长度 
+	 * @return {String} 返回生成的字符串
+	 */
+	randomString(min, max) {
+		let returnStr = "",
+			range = (max ? Math.round(Math.random() * (max - min)) + min : min),
+			arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+				'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+				'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+			];
+		for (let i = 0; i < range; i++) {
+			let index = Math.round(Math.random() * (arr.length - 1));
+			returnStr += arr[index];
+		}
+		return returnStr;
+	},
 
 	/**
 	 * 格式化日期
@@ -156,20 +165,21 @@ export default {
 		let ms3 = null;
 		let ms4 = null;
 		let dt = null;
-		
+
 		// 如果 date 是 String 类型
 		if (date && this.isString(date)) {
 			// 真机运行时，如果直接用 new Date('YYYY-MM-DD hh:mm:ss') 会报 Invalid Date 错误，所以采用下面的方式创建日期
 			let dtArr = date.replace(/\//g, '.').replace(/-/g, '.').replace(/:/g, '.').replace(/T/g, ' ').replace(' ', '.').replace(
 				'Z', '').split('.');
-				
-			let year = 2020; 
+
+			let year = 2020;
 			let month = 12;
 			let day = 18;
-			let hour = 0; 
+			let hour = 0;
 			let minute = 0;
 			let second = 0;
 			let millisecond = 0;
+			
 			// 年
 			if (dtArr.length > 0 && !isNaN(dtArr[0])) {
 				year = parseInt(dtArr[0]);
@@ -198,10 +208,10 @@ export default {
 			if (dtArr.length > 6 && !isNaN(dtArr[6])) {
 				millisecond = parseInt(dtArr[6]);
 			}
-					
+
 			date = new Date(year, month - 1, day, hour, minute, second, millisecond);
 		}
-		
+
 		// 如果 date 是 Date 类型
 		if (date && this.isDate(date)) {
 			YYYY = date.getFullYear();
@@ -249,16 +259,16 @@ export default {
 			ms3: ms3,
 			ms4: ms4,
 			dt: date,
-			fmt1: `${YYYY}-${MM}-${DD}`,
-			fmt2: `${YYYY}年${M}月${D}日`, 
-			fmt3: `${YYYY}-${M}-${D} ${hh}:${mm}`,
-			fmt4: `${h}:${m}:${s}`,
-			fmt5: `${MM}-${DD}`,
-			fmt6: `${YYYY}-${MM}`,
-			fmt7: `${YYYY}年${M}月`,
-			fmt8: `${h}:${m}`,
-			fmt9: `${M}月${D}日`,
-			notes: 'YYYY（年），MM（月，补0），M（月，不补0），DD（日，补0），D（日，不补0），hh（时，补0），h（时，不补0），mm（分，补0），m（分，不补0），ss（秒，补0），s（秒，不补0），ms（毫秒，不补0），ms2（毫秒，补0到2位），ms3（毫秒，补0到3位），ms4（毫秒，补0到4位），其余的fmt1，fmt2，... 看格式就知道了！'
+			f1: `${YYYY}-${MM}-${DD}`,
+			f2: `${YYYY}年${M}月${D}日`,
+			f3: `${YYYY}-${M}-${D} ${hh}:${mm}`,
+			f4: `${h}:${m}:${s}`,
+			f5: `${MM}-${DD}`,
+			f6: `${YYYY}-${MM}`,
+			f7: `${YYYY}年${M}月`,
+			f8: `${h}:${m}`,
+			f9: `${M}月${D}日`,
+			notes: 'YYYY（年），MM（月，补0），M（月，不补0），DD（日，补0），D（日，不补0），hh（时，补0），h（时，不补0），mm（分，补0），m（分，不补0），ss（秒，补0），s（秒，不补0），ms（毫秒，不补0），ms2（毫秒，补0到2位），ms3（毫秒，补0到3位），ms4（毫秒，补0到4位），其余的f1，f2，... 看格式就知道了！'
 		};
 		return result;
 	},
@@ -268,9 +278,7 @@ export default {
 	 * @param {Number} num 数字
 	 */
 	numberToChinese(num) {
-		if (!/^\d*(\.\d*)?$/.test(num)) {
-			return "Number is wrong!";
-		}
+		if (!/^\d*(\.\d*)?$/.test(num)) return "Number is wrong!";
 		let AA = new Array("零", "一", "二", "三", "四", "五", "六", "七", "八", "九");
 		let BB = new Array("", "十", "百", "千", "万", "亿", "点", "");
 		let a = ("" + num).replace(/(^0*)/g, "").split("."),
@@ -301,25 +309,5 @@ export default {
 			for (let i = 0; i < a[1].length; i++) re += AA[a[1].charAt(i)];
 		}
 		return re;
-	},
-	
-	/**
-	 * 生成指定长度的随机字符串
-	 * @param {Number} min 最小程度
-	 * @param {Number} max 最大长度 
-	 * @return {String} 返回生成的字符串
-	 */
-	randomString(min, max) {
-		var returnStr = "",
-			range = (max ? Math.round(Math.random() * (max - min)) + min : min),
-			arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-				'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
-				'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
-			];
-		for (var i = 0; i < range; i++) {
-			var index = Math.round(Math.random() * (arr.length - 1));
-			returnStr += arr[index];
-		}
-		return returnStr;
 	},
 }
