@@ -14,96 +14,66 @@ import Utils from './utils.js'; // 工具集
 function http(config) {
 	// 自己扩展的一些配置字段
 	let defaults = {
-		// [String] 接口基准路径
+		// 接口基准路径
 		baseURL: 'http://mas.biaofun.com.cn/',
-		// baseURL: 'http://127.0.0.1:8080/api/',
+		// baseURL: 'http://127.0.0.1:8080/api/', 
 
-		// [String] 请求路径
+		// 接口名称
 		url: '',
 
-		// [String] 请求类型，必须大写
+		// 请求类型，必须大写
 		method: 'POST',
 
-		// [Object|String|ArrayBuffer] 请求参数
+		// 请求参数
 		data: {},
 
-		// [Object] 设置请求的 header，header 中不能设置 Referer
+		// 设置请求的 header，header 中不能设置 Referer
 		header: {
 			'Author': 'ChenWanZhao'
 		},
 
-		// [Number] 超时时间，单位 ms
+		// 超时时间，单位 ms
 		timeout: 3000,
 
-		// [String] 如果设为 json，会尝试对返回的数据做一次 JSON.parse
+		// 如果设为 json，会尝试对返回的数据做一次 JSON.parse
 		dataType: 'json',
 
-		// [String] 设置响应的数据类型。合法值：text、arraybuffer
+		// 设置响应的数据类型。合法值：text、arraybuffer
 		responseType: 'text',
 
-		// [Boolean] 验证 ssl 证书？
+		// 验证 ssl 证书？
 		sslVerify: true,
 
-		// [Boolean] 是否显示 loading？
-		showLoading: false,
+		// loading 相关配置
+		showLoading: false, // 是否显示 loading？
+		loadingText: '加载中...', // loading 文本
+		loadingMask: true, // 是否显示透明蒙层，防止触摸穿透
 
-		// [String] loading 文本？
-		loadingText: '加载中...',
+		// 成功提示相关配置
+		showSuccessTips: false, // 是否弹窗显示成功提示？
+		successTipsText: '', // 指定成功提示文本
+		successTipsMessage: true, // 是否将成功提示文本设置为接口返回的 message
+		successTipsIcon: 'none', // 成功消息提示框的图标
+		successTipsImage: '', // 成功消息提示框的自定义图标本地路径
+		successTipsMask: true, // 成功消息提示框是否显示透明蒙层，防止触摸穿透
+		successTipsDuration: 2500, // 成功消息提示框提示的持续时间，单位毫秒
+		successTipsPosition: '', // 成功消息提示框纯文本轻提示显示位置，填写有效值后只有 title 属性生效
 
-		// [Boolean] 是否显示透明蒙层，防止触摸穿透
-		loadingMask: true,
-
-		// [Boolean] 是否弹窗显示成功提示？
-		showSuccessTips: false,
-		
-		// [String] 指定成功提示文本
-		successTipsText: '',
-		
-		// [Boolean] 是否将成功提示文本设置为接口返回的 message
-		successTipsMessage: true,
-
-		// [String] 成功消息提示框的图标
-		successTipsIcon: 'none',
-
-		// [String] 成功消息提示框的自定义图标本地路径
-		successTipsImage: '',
-
-		// [Boolean] 成功消息提示框是否显示透明蒙层，防止触摸穿透
-		successTipsMask: true,
-
-		// [Number] 成功消息提示框提示的持续时间，单位毫秒
-		successTipsDuration: 2500,
-
-		// [String] 成功消息提示框纯文本轻提示显示位置，填写有效值后只有 title 属性生效
-		successTipsPosition: '',
-
-		// [Boolean] 是否弹窗显示错误提示？
-		showErrorTips: true,
-
-		// [String] 指定错误提示文本
-		errorTipsText: '服务器太累了~ 请稍后再试！',
-		
-		// [Boolean] 是否将失败提示文本设置为接口返回的 message
-		errorTipsMessage: true,
-
-		// [String] 失败消息提示框的图标
-		errorTipsIcon: 'none',
-
-		// [String] 失败消息提示框的自定义图标本地路径
-		errorTipsImage: '',
-
-		// [Boolean] 失败消息提示框是否显示透明蒙层，防止触摸穿透
-		errorTipsMask: true,
-
-		// [Number] 失败消息提示框提示的持续时间，单位毫秒
-		errorTipsDuration: 2500,
-
-		// [String] 失败消息提示框纯文本轻提示显示位置，填写有效值后只有 title 属性生效
-		errorTipsPosition: '',
+		// 失败提示相关配置
+		showErrorTips: true, // 是否弹窗显示错误提示？
+		errorTipsText: '服务器太累了~ 请稍后再试！', // 指定错误提示文本
+		errorTipsMessage: true, // 是否将失败提示文本设置为接口返回的 message
+		errorTipsIcon: 'none', // 失败消息提示框的图标
+		errorTipsImage: '', // 失败消息提示框的自定义图标本地路径
+		errorTipsMask: true, // 失败消息提示框是否显示透明蒙层，防止触摸穿透
+		errorTipsDuration: 2500, // 失败消息提示框提示的持续时间，单位毫秒
+		errorTipsPosition: '', // 失败消息提示框纯文本轻提示显示位置，填写有效值后只有 title 属性生效
 	}
+
 
 	// 合并配置项
 	let options = Utils.deepMargeObject(defaults, config);
+
 
 	// 是否需要显示 loading？
 	if (options.showLoading) {
@@ -113,7 +83,8 @@ function http(config) {
 		});
 	}
 
-	// 进行请求并返回Promise
+
+	// 进行请求
 	return new Promise((resolve, reject) => {
 		uni.request({
 			method: options.method,
@@ -124,17 +95,20 @@ function http(config) {
 			dataType: options.dataType,
 			responseType: options.responseType,
 			sslVerify: options.sslVerify,
+
+
+			// 请求成功
 			success(res) {
 				// 判断是否需要关闭loading
-				if (options.showLoading) {
-					console.log('关闭loading')
-					uni.hideLoading();
-				}
-				
-				console.log('接口请求成功：', res);
+				if (options.showLoading) uni.hideLoading();
+
+				// 200
 				if (res.statusCode == 200) {
-					if(res.data.state == 200) {
-						// 判断是否需要显示成功提示
+					// 返回数据中的 code 状态
+					// 数据返回成功
+					if (res.data.code == 200) {
+						console.log('数据返回成功：', res.data);
+						// 是否显示成功提示？
 						if (options.showSuccessTips) {
 							uni.showToast({
 								title: options.successTipsMessage ? res.data.msg : options.successTipsText,
@@ -146,9 +120,40 @@ function http(config) {
 							});
 						}
 						resolve(res.data);
-					} else {
-						// 判断是否需要显示失败提示
-						if (options.showErrorTips) {
+					}
+
+					// 数据返回异常
+					else {
+						// 自定义异常对象
+						let error = {
+							code: res.data.code,
+							msg: res.data.msg
+						}
+
+						// 登录过期
+						if (res.data.code == '-1') {
+							console.log('登录过期：'，
+								res.data);
+
+							// 是否显示错误提示？
+							if (options.showErrorTips) showErrorTips(res);
+
+							reject(error);
+						}
+
+						// 异常
+						else if (res.data.code == '-2') {
+							console.log('异常：'，
+								res.data);
+
+							// 是否显示错误提示？
+							if (options.showErrorTips) showErrorTips(res);
+
+							reject(error);
+						}
+
+						// 显示错误提示
+						function showErrorTips(res) {
 							uni.showToast({
 								title: options.errorTipsMessage ? res.data.msg : options.errorTipsText,
 								icon: options.errorTipsIcon,
@@ -158,33 +163,49 @@ function http(config) {
 								position: options.errorTipsPosition
 							});
 						}
-						
-						// 定义失败对象
-						let error = {
-							code: res.data.state,
-							msg: res.data.msg
-						}
-						
-						// 登录失效
-						if(res.data.state == '-1') {
-							uni.showToast({
-								title: '登录失效，请重新登录！',
-								icon: 'none'
-							});
-							let timer = setTimeout(() => {
-								uni.removeStorageSync('userinfo');
-								uni.redirectTo({
-									url: '/pages/login/login'
-								});
-							}, 2500);
-						}
+					}
+				}
+
+				// 404、500 等错误
+				else {
+					// 定义失败对象
+					let error = {
+						code: res.statusCode,
+					}
+
+					// 404
+					if (res.statusCode == 404) {
+						console.log('404：'，
+							res);
+
+						// 自定义失败提示信息
+						err.msg = '404';
+
+						// 是否显示错误提示？
+						if (options.showErrorTips) showErrorTips(error);
+
+						reject(error);
+
+					}
+
+					// 500
+					else if (res.statusCode == 500) {
+						console.log('500：'，
+							res);
+
+						// 自定义失败提示信息
+						err.msg = '500';
+
+						// 是否显示错误提示？
+						if (options.showErrorTips) showErrorTips(error);
+
 						reject(error);
 					}
-				} else {
-					// 判断是否需要显示失败提示
-					if (options.showErrorTips) {
+
+					// 显示错误提示
+					function showErrorTips(error) {
 						uni.showToast({
-							title: options.errorTipsMessage ? res.errMsg : options.errorTipsText,
+							title: options.errorTipsMessage ? error.msg : options.errorTipsText,
 							icon: options.errorTipsIcon,
 							image: options.errorTipsImage,
 							mask: options.errorTipsMask,
@@ -192,34 +213,25 @@ function http(config) {
 							position: options.errorTipsPosition
 						});
 					}
-					
-					// 定义失败对象
-					let error = {
-						code: res.statusCode,
-						msg: res.errMsg
-					}
-					
-					// 根据不同的 statusCode 执行不同的操作
-					if (res.statusCode == 404) {
-						reject(error);
-					} else if(res.statusCode == 500) {
-						reject(error);
-					}
 				}
 			},
+
+
+			// 请求失败
 			fail(res) {
-				console.log('接口请求失败：', res);
+				console.log('请求失败：', res);
+
 				// 判断是否需要关闭loading
 				if (options.showLoading) {
 					uni.hideLoading();
 				}
-				
+
 				// 定义失败对象
 				let error = {
 					code: 19910510,
-					msg: '未知错误'
+					msg: '请求失败'
 				}
-				
+
 				// 判断是否需要显示失败提示
 				if (options.showErrorTips) {
 					uni.showToast({
@@ -231,9 +243,11 @@ function http(config) {
 						position: options.errorTipsPosition
 					});
 				}
-				
+
 				reject(error);
 			}
+
+
 		});
 	});
 }

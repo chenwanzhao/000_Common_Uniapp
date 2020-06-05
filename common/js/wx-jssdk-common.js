@@ -34,13 +34,21 @@ export default {
 	 * @param {Object} data 配置数据
 	 */ 
 	configSDK(data) {
-		wx.config({
-			debug: false,
-			appId: data.appId,
-			timestamp: data.timestamp,
-			nonceStr: data.nonceStr,
-			signature: data.signature,
-			jsApiList: data.jsApiList
+		return new Promise((resolve, reject) => {
+			wx.config({
+				debug: false,
+				appId: data.appId,
+				timestamp: data.timestamp,
+				nonceStr: data.nonceStr,
+				signature: data.signature,
+				jsApiList: data.jsApiList,
+				success() {
+					resolve();
+				},
+				fail() {
+					reject();
+				}
+			});
 		});
 	},
 	
@@ -60,6 +68,36 @@ export default {
 					reject({ msg: '获取位置失败！' })
 				}
 			});
+		});
+	},
+	
+	/**
+	 * 调用微信支付
+	 * 此微信支付的适用场景为：用户通过微信扫码，关注公众号等方式进入商家H5页面，并在微信内调用JSSDK完成支付
+	 * @param {Object} params 支付参数对象，支付参数需要请求后台获取
+	 */
+	payment(params) {
+		return new Promise((resolve, reject) => {
+			WeixinJSBridge.invoke(
+				'getBrandWCPayRequest',
+				{
+					appId: params.appId, // 公众号id
+					timeStamp: params.timeStamp, // 时间戳
+					nonceStr: params.nonceStr, // 随机串
+					package: params.package, // 订单详情扩展字符串
+					signType: params.signType, // 签名方式
+					paySign: params.paySign // 签名
+				},
+				function(res) {
+					if (res.err_msg == 'get_brand_wcpay_request:ok') {
+						// 使用以上方式判断前端返回,微信团队郑重提示：
+						// res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+						resolve();
+					} else {
+						reject();
+					}
+				}
+			);
 		});
 	}
 }
