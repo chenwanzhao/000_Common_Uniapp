@@ -57,10 +57,10 @@ function http(config) {
 		showSuccessTips: false,
 		
 		// [String] 指定成功提示文本
-		successTipsText: '请求成功',
+		successTipsText: '',
 		
 		// [Boolean] 是否将成功提示文本设置为接口返回的 message
-		successTipsMessage: false,
+		successTipsMessage: true,
 
 		// [String] 成功消息提示框的图标
 		successTipsIcon: 'none',
@@ -72,7 +72,7 @@ function http(config) {
 		successTipsMask: true,
 
 		// [Number] 成功消息提示框提示的持续时间，单位毫秒
-		successTipsDuration: 1500,
+		successTipsDuration: 2500,
 
 		// [String] 成功消息提示框纯文本轻提示显示位置，填写有效值后只有 title 属性生效
 		successTipsPosition: '',
@@ -84,7 +84,7 @@ function http(config) {
 		errorTipsText: '服务器太累了~ 请稍后再试！',
 		
 		// [Boolean] 是否将失败提示文本设置为接口返回的 message
-		errorTipsMessage: false,
+		errorTipsMessage: true,
 
 		// [String] 失败消息提示框的图标
 		errorTipsIcon: 'none',
@@ -96,7 +96,7 @@ function http(config) {
 		errorTipsMask: true,
 
 		// [Number] 失败消息提示框提示的持续时间，单位毫秒
-		errorTipsDuration: 1500,
+		errorTipsDuration: 2500,
 
 		// [String] 失败消息提示框纯文本轻提示显示位置，填写有效值后只有 title 属性生效
 		errorTipsPosition: '',
@@ -107,7 +107,6 @@ function http(config) {
 
 	// 是否需要显示 loading？
 	if (options.showLoading) {
-		console.log('显示loading')
 		uni.showLoading({
 			title: options.loadingText,
 			mask: options.loadingMask
@@ -134,11 +133,11 @@ function http(config) {
 				
 				console.log('接口请求成功：', res);
 				if (res.statusCode == 200) {
-					if(res.data.state == 1) {
+					if(res.data.state == 200) {
 						// 判断是否需要显示成功提示
 						if (options.showSuccessTips) {
 							uni.showToast({
-								title: options.successTipsMessage ? res.data.message : options.successTipsText,
+								title: options.successTipsMessage ? res.data.msg : options.successTipsText,
 								icon: options.successTipsIcon,
 								image: options.successTipsImage,
 								mask: options.successTipsMask,
@@ -151,7 +150,7 @@ function http(config) {
 						// 判断是否需要显示失败提示
 						if (options.showErrorTips) {
 							uni.showToast({
-								title: options.errorTipsMessage ? res.data.message : options.errorTipsText,
+								title: options.errorTipsMessage ? res.data.msg : options.errorTipsText,
 								icon: options.errorTipsIcon,
 								image: options.errorTipsImage,
 								mask: options.errorTipsMask,
@@ -159,16 +158,17 @@ function http(config) {
 								position: options.errorTipsPosition
 							});
 						}
+						
 						// 定义失败对象
 						let error = {
 							code: res.data.state,
-							msg: res.data.message
+							msg: res.data.msg
 						}
 						
-						// 登录过期
+						// 登录失效
 						if(res.data.state == '-1') {
 							uni.showToast({
-								title: '登录失效',
+								title: '登录失效，请重新登录！',
 								icon: 'none'
 							});
 							let timer = setTimeout(() => {
@@ -184,7 +184,7 @@ function http(config) {
 					// 判断是否需要显示失败提示
 					if (options.showErrorTips) {
 						uni.showToast({
-							title: options.errorTipsMessage ? res.data.message : options.errorTipsText,
+							title: options.errorTipsMessage ? res.errMsg : options.errorTipsText,
 							icon: options.errorTipsIcon,
 							image: options.errorTipsImage,
 							mask: options.errorTipsMask,
@@ -192,11 +192,13 @@ function http(config) {
 							position: options.errorTipsPosition
 						});
 					}
+					
 					// 定义失败对象
 					let error = {
 						code: res.statusCode,
-						msg: res.data.message
+						msg: res.errMsg
 					}
+					
 					// 根据不同的 statusCode 执行不同的操作
 					if (res.statusCode == 404) {
 						reject(error);
@@ -209,20 +211,19 @@ function http(config) {
 				console.log('接口请求失败：', res);
 				// 判断是否需要关闭loading
 				if (options.showLoading) {
-					console.log('关闭loading')
 					uni.hideLoading();
 				}
 				
 				// 定义失败对象
 				let error = {
-					code: 1991,
+					code: 19910510,
 					msg: '未知错误'
 				}
 				
 				// 判断是否需要显示失败提示
 				if (options.showErrorTips) {
 					uni.showToast({
-						title: options.errorTipsMessage ? error.message : options.errorTipsText,
+						title: options.errorTipsMessage ? error.msg : options.errorTipsText,
 						icon: options.errorTipsIcon,
 						image: options.errorTipsImage,
 						mask: options.errorTipsMask,

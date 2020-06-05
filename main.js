@@ -7,11 +7,13 @@ import App from './App';
 import Store from './store';
 import $http from './common/js/http.js';
 import $utils from './common/js/utils.js';
+import { mapState } from 'vuex';
 
 Vue.prototype.$utils = $utils; // 工具集
 Vue.prototype.$http = $http; // 封装的HTTP
 Vue.prototype.$baseURL = 'https://qp.sportsone.com.cn/'; // 基准路径
 Vue.prototype.$store = Store;
+Vue.prototype.$mapState = mapState;
 
 Vue.config.productionTip = false;
 
