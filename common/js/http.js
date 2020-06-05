@@ -132,8 +132,7 @@ function http(config) {
 
 						// 登录过期
 						if (res.data.code == '-1') {
-							console.log('登录过期：'，
-								res.data);
+							console.log('登录过期：', res.data);
 
 							// 是否显示错误提示？
 							if (options.showErrorTips) showErrorTips(res);
@@ -143,8 +142,7 @@ function http(config) {
 
 						// 异常
 						else if (res.data.code == '-2') {
-							console.log('异常：'，
-								res.data);
+							console.log('异常：', res.data);
 
 							// 是否显示错误提示？
 							if (options.showErrorTips) showErrorTips(res);
@@ -175,8 +173,7 @@ function http(config) {
 
 					// 404
 					if (res.statusCode == 404) {
-						console.log('404：'，
-							res);
+						console.log('404：', res);
 
 						// 自定义失败提示信息
 						err.msg = '404';
@@ -190,8 +187,7 @@ function http(config) {
 
 					// 500
 					else if (res.statusCode == 500) {
-						console.log('500：'，
-							res);
+						console.log('500：', res);
 
 						// 自定义失败提示信息
 						err.msg = '500';
