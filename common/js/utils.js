@@ -310,4 +310,39 @@ export default {
 		}
 		return re;
 	},
+	
+	/**
+	 * 计算两个经纬度点之间的距离
+	 * @param {Number} lng1 第一个点的经度
+	 * @param {Number} lat1 第一个点的纬度
+	 * @param {Number} lng2 第二个点的经度
+	 * @param {Number} lat2 第二个点的纬度
+	 */
+	calcDistance(lng1, lat1, lng2, lat2) {
+		var radLat1 = lat1 * Math.PI / 180.0;
+		var radLat2 = lat2 * Math.PI / 180.0;
+		var a = radLat1 - radLat2;
+		var b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
+		var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+			Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+		s = s * 6378.137; // EARTH_RADIUS;
+		s = Math.round(s * 10000) / 10000;
+		return s;
+	},
+	
+	/**
+	 * 获取数组最小值的下标
+	 * @param {Array} arr 数组
+	 */
+	getArrayMixValueIndex(arrar) {
+		let min = arrar[0];
+		let index = 0;
+		for (let i = 0; i < arrar.length; i++) {
+			if (min > arrar[i]) {
+				min = arrar[i];
+				index = i;
+			}
+		}
+		return index;
+	}
 }

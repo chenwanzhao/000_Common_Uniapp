@@ -9,36 +9,4 @@
  */
 /* 颜色变量 */
 /* 字体大小 */
-.row.data-v-584560ec {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-  width: 100%;
-  padding: 30rpx;
-}
-.row .label.data-v-584560ec {
-  -webkit-flex-shrink: 0;
-          flex-shrink: 0;
-}
-.row .value.data-v-584560ec {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-          flex: 1;
-  overflow: hidden;
-  word-break: break-all;
-  white-space: normal;
-  word-wrap: break-word;
-  padding: 0 30rpx;
-}
-.row .right-icon.data-v-584560ec {
-  -webkit-flex-shrink: 0;
-          flex-shrink: 0;
-}
-/* 瀑布流布局 */
-.waterfall-wrapper.data-v-584560ec {
-  padding: 30rpx;
-}
 

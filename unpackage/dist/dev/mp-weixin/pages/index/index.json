@@ -1,11 +1,4 @@
 {
-  "navigationBarTitleText": "uni-app",
-  "enablePullDownRefresh": false,
-  "disableScroll": false,
-  "usingComponents": {
-    "region": "/components/region/region",
-    "datetime-picker": "/components/datetime-picker/datetime-picker",
-    "waterfall": "/components/waterfall/waterfall",
-    "marquee-text": "/components/marquee-text/marquee-text"
-  }
+  "navigationBarTitleText": "首页",
+  "usingComponents": {}
 }

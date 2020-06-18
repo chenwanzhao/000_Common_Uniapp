@@ -10,7 +10,7 @@
 		"navigationStyle": "default", // 导航栏样式，仅支持 default/custom。custom即取消默认的原生导航栏。平台差异说明：微信小程序 7.0+、百度小程序、H5、App（2.0.3+）
 		"backgroundColor": "#F8F8F8", // 窗口的背景色。默认值："#FFFFFF"。平台差异说明：微信小程序
 		"backgroundTextStyle": "dark", // 下拉 loading 的样式，仅支持 dark / light。默认："dark"。平台差异说明：微信小程序
-		"enablePullDownRefresh": true, // 是否开启下拉刷新。默认：false
+		"enablePullDownRefresh": false, // 是否开启下拉刷新。默认：false
 		"onReachBottomDistance": 50, // 页面上拉触底事件触发时距页面底部距离，单位只支持px。默认：50
 		"backgroundColorTop": "#FFFFFF", // 顶部窗口的背景色（bounce回弹区域）。默认值："#FFFFFF"。平台差异说明：仅 iOS 平台
 		"backgroundColorBottom": "#FFFFFF", // 底部窗口的背景色（bounce回弹区域）。默认值："#FFFFFF"。平台差异说明：仅 iOS 平台

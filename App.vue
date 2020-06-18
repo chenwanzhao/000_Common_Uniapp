@@ -37,7 +37,7 @@
 		 * 全局数据
      */
     globalData: {
-			// 基准路径
+			// 基准路径，项目接口请求的也是使用的这个路径
 			baseURL: 'http://mas.biaofun.com.cn/',
 			// baseURL: 'http://127.0.0.1:8080/api/', 
 		}

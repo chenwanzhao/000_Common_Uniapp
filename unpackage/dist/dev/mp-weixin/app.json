@@ -1,13 +1,13 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/list/list"
+    "pages/mine/mine"
   ],
   "subPackages": [],
   "window": {
     "navigationBarBackgroundColor": "#F8F8F8",
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
+    "navigationBarTitleText": "标梵互动",
     "navigationStyle": "default",
     "backgroundColor": "#F8F8F8",
     "backgroundTextStyle": "dark",
@@ -23,12 +23,13 @@
     "animationDuration": 300
   },
   "tabBar": {
-    "fontSize": "10px",
-    "height": "50px",
+    "fontSize": "16px",
+    "height": "75px",
     "color": "#333333",
     "selectedColor": "#FF9900",
     "backgroundColor": "#FFFFFF",
     "borderStyle": "white",
+    "iconWidth": "24px",
     "list": [
       {
         "pagePath": "pages/index/index",
@@ -37,15 +38,15 @@
         "selectedIconPath": "static/logo.png"
       },
       {
-        "pagePath": "pages/list/list",
-        "text": "列表",
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
         "iconPath": "static/logo.png",
         "selectedIconPath": "static/logo.png"
       }
-    ],
-    "position": "bottom",
-    "iconWidth": "24px"
+    ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap63.json"
+  "uniStatistics": {
+    "enable": true
+  },
+  "usingComponents": {}
 }
