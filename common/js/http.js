@@ -149,6 +149,14 @@ function http(config) {
 
 							reject(error);
 						}
+            
+            // 其他
+            else {
+              // 是否显示错误提示？
+              if (options.showErrorTips) showErrorTips(res);
+              
+              reject(error);
+            }
 
 						// 显示错误提示
 						function showErrorTips(res) {
@@ -176,7 +184,7 @@ function http(config) {
 						console.log('404：', res);
 
 						// 自定义失败提示信息
-						err.msg = '404';
+						error.msg = '404';
 
 						// 是否显示错误提示？
 						if (options.showErrorTips) showErrorTips(error);
@@ -190,13 +198,24 @@ function http(config) {
 						console.log('500：', res);
 
 						// 自定义失败提示信息
-						err.msg = '500';
+						error.msg = '500';
 
 						// 是否显示错误提示？
 						if (options.showErrorTips) showErrorTips(error);
 
 						reject(error);
 					}
+          
+          // 其他
+          else {
+            // 自定义失败提示信息
+            error.msg = '请求错误';
+            
+            // 是否显示错误提示？
+            if (options.showErrorTips) showErrorTips(res);
+            
+            reject(error);
+          }
 
 					// 显示错误提示
 					function showErrorTips(error) {
